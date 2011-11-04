@@ -10,6 +10,8 @@ gem "sinatra"                   # the base of our web app
 gem "rack-flash"                # enables flash[:notice] && flash[:error]
 gem "thin"                      # thin server
 
+gem "redis"
+
 group :production do
   gem 'pony'
 end

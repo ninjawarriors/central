@@ -1,6 +1,7 @@
 #\ -s thin -p 4567
 # sets `rackup` to use the thin web server on port 4567
 # 
+require 'rubygems' if RUBY_VERSION < '1.9'
 require 'bundler' # gem requires
 
 # if you're trying to run your app with Pow (http://pow.cx/) then ENV['RACK_ENV'] might not show up
