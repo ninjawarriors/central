@@ -11,6 +11,10 @@ gem "rack-flash"                # enables flash[:notice] && flash[:error]
 gem "thin"                      # thin server
 
 gem "redis"
+gem "resque"
+gem "json"
+gem "SystemTimer"
+gem "resque-batched-job"
 
 group :production do
   gem 'pony'
