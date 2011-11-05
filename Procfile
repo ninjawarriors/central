@@ -1,2 +1,2 @@
 web:	bundle exec thin start -p $PORT
-worker:	QUEUE=* bundle exec rake resque:work
+worker:	VVERBOSE=true QUEUE=* bundle exec rake resque:work
