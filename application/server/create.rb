@@ -4,7 +4,7 @@ module Central
   
     def self.perform(name, options = {})
       sleep 1
-      debug "Creating Server: #{name}"
+      puts "Creating Server: #{name}"
     end
   
     def self.after_batch_actions(name, options = {})
@@ -17,7 +17,7 @@ module Central
   
     def self.perform(name, options = {})
       sleep 1
-      debug "Creating Cluster: #{name}"
+      puts "Creating Cluster: #{name}"
     end
   
     def self.after_batch_actions(name, options = {})
