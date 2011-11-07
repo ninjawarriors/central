@@ -1,0 +1,7 @@
+%html
+%body
+  %h1= "Data stored in '#{@key}'"
+  %ul
+    -@data.each do |data|
+      %li
+        %p= data

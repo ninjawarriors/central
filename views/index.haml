@@ -1,0 +1,7 @@
+%html
+%body
+  %h1 Current Keys
+  %ul
+    -@keys.each do |key|
+      %li
+        %a{:href => "/#{key}"}= key
