@@ -29,3 +29,6 @@ require 'redis'
     end
     haml :show
   end
+
+
+
