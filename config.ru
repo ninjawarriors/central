@@ -10,7 +10,7 @@ require 'bundler' # gem requires
 Bundler.require(:default, ENV['RACK_ENV'].to_sym)  # only loads environment specific gems
 
 # core Ruby requires, modules and the main app file
-%w(base64 digest/sha2 timeout cgi date ./application/constants ./app).each do |requirement|
+%w(base64 digest/sha2 timeout cgi date ./lib/constants ./app).each do |requirement|
   require requirement
 end
 
@@ -31,7 +31,7 @@ use Rack::Static,               # trying to catch these for static files
   :root => "public"             # local folder root for public resources
 
 if production?                  # production config / requires
-  require './application/middleware/exceptionmailer'
+  require './lib/middleware/exceptionmailer'
   
   use Rack::ExceptionMailer, 
     :to      => 'you@yourdomain.com',
@@ -56,5 +56,5 @@ set :show_exceptions, false     # no need because we're using Rack::ShowExceptio
 set :raise_errors, true         # let's exceptions propagate to other middleware (ahem mailer ahem)
 
 run Rack::URLMap.new \
-  "/"       => Sinatra::Application,
+  "/"       => Central,
   "/resque" => Resque::Server.new
