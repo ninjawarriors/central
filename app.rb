@@ -1,13 +1,8 @@
-require 'sinatra'
+require 'sinatra/base'
 
-module Central
-  def debug msg
+class Central < Sinatra::Base
+  def self.debug msg
     puts "d-b #{msg}"
-  end
-
-# further requires (models, helpers, core extensions etc. { but not 'middleware' because that should be grabbed up by Rack when appropriate })
-  Dir.glob('./application/**/*.rb') do |file|
-    require file.gsub(/\.rb/, '') unless file.include?('middleware')
   end
 
   get '/' do
@@ -25,4 +20,9 @@ module Central
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
+end
+
+# further requires (models, helpers, core extensions etc. { but not 'middleware' because that should be grabbed up by Rack when appropriate })
+Dir.glob('./lib/**/*.rb') do |file|
+  require file.gsub(/\.rb/, '') unless file.include?('middleware')
 end

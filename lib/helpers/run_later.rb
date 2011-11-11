@@ -109,3 +109,7 @@ module Sinatra
   
   helpers RunLater::InstanceMethods
 end
+
+class Central
+  helpers Sinatra::RunLater::InstanceMethods
+end
