@@ -8,7 +8,9 @@ class Central
     alias_method :h, :escape_html
     alias_method :e, :escape
     
-    
+    def redis
+      @redis ||= Redis.new
+    end
     # overrides Sinatra's defaults to allow calling like this:
     #   erb 'partials/flash'
     # 

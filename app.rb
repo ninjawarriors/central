@@ -1,4 +1,6 @@
+require 'rubygems'
 require 'sinatra/base'
+require 'redis'
 
 class Central < Sinatra::Base
   def self.debug msg
@@ -7,16 +9,19 @@ class Central < Sinatra::Base
 
   get '/' do
     @title = 'CENTRAL'
-    
+    @server_job_counter = redis.get("server_job_counter")
+    @cluster_job_counter = redis.get("cluster_job_counter")
     erb :index
   end
 
   post '/servers' do
+    id = redis.incr("server_job_counter")
     Resque.enqueue(ServerCreate, params[:name])
     redirect to('/')
   end
   
   post '/clusters' do
+    id = redis.incr("cluster_job_counter")
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
