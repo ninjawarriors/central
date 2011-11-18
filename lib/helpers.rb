@@ -11,6 +11,11 @@ class Central
     def redis
       @redis ||= Redis.new
     end
+    
+    def counter
+      redis.incr "global_counter"
+    end
+    
     # overrides Sinatra's defaults to allow calling like this:
     #   erb 'partials/flash'
     # 
