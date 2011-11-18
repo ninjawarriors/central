@@ -1,4 +1,6 @@
+require 'rubygems'
 require 'sinatra/base'
+require 'redis'
 
 class Central < Sinatra::Base
   def self.debug msg
@@ -7,16 +9,17 @@ class Central < Sinatra::Base
 
   get '/' do
     @title = 'CENTRAL'
-    
     erb :index
   end
 
   post '/servers' do
+    id = counter
     Resque.enqueue(ServerCreate, params[:name])
     redirect to('/')
   end
   
   post '/clusters' do
+    id = counter
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
