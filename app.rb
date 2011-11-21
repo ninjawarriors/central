@@ -1,15 +1,32 @@
 require 'rubygems'
-require 'sinatra/base'
+require 'sinatra'
+require 'sass'
+require 'json'
 require 'redis'
 
 class Central < Sinatra::Base
+  
+      set :root, File.dirname(__FILE__)
+    set :static, true
+    set :public_folder, Proc.new { File.join(root, "public") }
+    
   def self.debug msg
     puts "d-b #{msg}"
   end
 
-  get '/' do
-    @title = 'CENTRAL'
-    erb :index
+    before do
+      content_type 'application/json'
+    end
+
+    get '/' do
+      content_type 'text/html'
+            @js = erb :event_templates, :layout => false
+      body erb :index
+    end
+  
+  get '/css/sonian.css' do
+      content_type 'text/css'
+      body sass :sonian
   end
 
   post '/servers' do

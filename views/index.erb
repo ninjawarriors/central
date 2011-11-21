@@ -1,10 +1,44 @@
-<form action='/servers' method='post'>
-  <label for='name'>Node Name</label>
-  <%= input_for 'name' %>
-  <%= input_for 'create', { :type => 'submit', :value => 'Create' } %>
-</form>
-<form action='/clusters' method='post'>
-  <label for='name'>Cluster Name</label>
-  <%= input_for 'name' %>
-  <%= input_for 'create', { :type => 'submit', :value => 'Create' } %>
-</form>
+<h1>Current Events <span class="events_count">(<span id="event_count">0</span>)</span></h1>
+
+<input type="text" id="autosuggest_filter" style="width: 300px;"/>
+
+<table id="events">
+
+    <thead>
+
+      <tr>
+        <td class="col_clients">Client</td>
+        <td class="col_checks">Check</td>
+        <td class="col_status">Status</td>
+        <td class="col_output">Output</td>
+      </tr>
+
+    </thead>
+
+    <tbody></tbody>
+
+</table>
+
+<div id="event_details_modal" class="event_details_modal">
+  <h1 class="section_title">Actions</h1>
+  <div id="event_actions">
+    <div class="event_detail_group">
+      <div class="event_detail">
+        <div id="disable_client_alerts" class="action_btn" style="margin-right: 7px;">
+          <img src="/img/loading_circle.gif" style="vertical-align: middle; padding-right: 7px;"/><strong>Client</strong>
+        </div>
+        <div id="disable_client_check_alerts" class="action_btn" style="margin-right: 7px;">
+          <img src="/img/loading_circle.gif" style="vertical-align: middle; padding-right: 7px;"/><strong>Check</strong>
+        </div>
+        <div id="resolve_event" class="action_btn" style="margin-right: 7px;">
+          <img src="/img/cross.png" style="vertical-align: middle; padding-right: 7px;"/><strong>Resolve</strong>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+  <h1 class="section_title">Event Data</h1>
+  <div id="event_data"></div>
+  <h1 class="section_title">Client Data</h1>
+  <div id="client_data"></div>
+</div>
