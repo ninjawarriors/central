@@ -1,6 +1,8 @@
 <form action='/servers' method='post'>
   <label for='name'>Node Name</label>
   <%= input_for 'name' %>
+  <label for='cluster_membership'>Which Cluster does this node belong to</label>
+  <%= input_for 'cluster_membership' %>
   <%= input_for 'create', { :type => 'submit', :value => 'Create' } %>
 </form>
 <form action='/clusters' method='post'>
