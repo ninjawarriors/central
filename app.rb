@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'redis'
+require 'haml'
 
 class Central < Sinatra::Base
   def self.debug msg
@@ -10,6 +11,11 @@ class Central < Sinatra::Base
   get '/' do
     @title = 'CENTRAL'
     erb :index
+  end
+  
+  get '/serverlist' do
+    @keys = redis.keys("*")
+    haml :servers
   end
 
   post '/servers' do
