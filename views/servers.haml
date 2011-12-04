@@ -1,7 +1,8 @@
 %html
 %body
-  %h1 Current Clusters
+  %h1= "Servers in #{@keys}"
   %ul
-    -@keys.each do |key|
+    -@servers.each do |servers|
       %li
-        %a{:href => "/servers/#{key}"}= key
+        %a{:href => "/node/#{servers}"}= servers
+

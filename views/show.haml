@@ -1,7 +1,7 @@
 %html
 %body
-  %h1= "Data stored in '#{@key}'"
+  %h1= "Servers in #{@keys}"
   %ul
     -@data.each do |data|
       %li
-        %p= data
+        %a{:href => "/servers/server_groups:#{data}"}= data

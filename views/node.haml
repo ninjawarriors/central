@@ -1,0 +1,10 @@
+%html
+%body
+  %h1= "Servers in #{@keys}"
+  %ul
+    %table
+      %tbody
+        -@node.each do |key, value|
+          %tr
+            %td= key
+            %td= value
