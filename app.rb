@@ -14,13 +14,13 @@ class Central < Sinatra::Base
   end
   
   get '/clusters' do
-    @keys = redis.keys("server_groups:*")
+    @keys = redis.smembers("server_groups")
     haml :clusters
   end
   
   get '/servers/*' do
     @keys = params[:splat].first.split('/')
-    @data = case redis.type(@keys)
+    @servers = case redis.type(@keys)
     when "string"
       Array(redis[@keys])
     when "list"
@@ -30,7 +30,24 @@ class Central < Sinatra::Base
     else
       []
     end
-    haml :show
+    haml :servers
+  end
+  
+  get '/node/*' do
+    @keys = params[:splat].first.split('/')
+    @node = case redis.type(@keys)
+    when "string"
+      Array(redis[@keys])
+    when "hash"
+      redis.hgetall(@keys)
+    when "list"
+      redis.lrange(@keys, 0, -1)
+    when "set"
+      redis.smembers(@keys)
+    else
+      []
+    end
+    haml :node   
   end
 
   post '/servers' do
