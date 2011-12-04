@@ -15,7 +15,7 @@ class Central < Sinatra::Base
   
   get '/clusters' do
     @keys = redis.keys("server_groups:*")
-    haml :servers
+    haml :clusters
   end
   
   get '/servers/*' do
