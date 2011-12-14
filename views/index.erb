@@ -1,10 +1,10 @@
-<form action='/servers' method='post'>
+<form action='/servers' method='post' class="form-stacked">
   <label for='name'>Node Name</label>
   <%= input_for 'name' %>
-  <%= input_for 'create', { :type => 'submit', :value => 'Create' } %>
+  <%= input_for 'create', { :type => 'submit', :value => 'Create', :class => 'btn' } %>
 </form>
-<form action='/clusters' method='post'>
+<form action='/clusters' method='post' class="form-stacked">
   <label for='name'>Cluster Name</label>
   <%= input_for 'name' %>
-  <%= input_for 'create', { :type => 'submit', :value => 'Create' } %>
+  <%= input_for 'create', { :type => 'submit', :value => 'Create', :class => 'btn' } %>
 </form>
