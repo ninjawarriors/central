@@ -15,7 +15,7 @@ class Central < Sinatra::Base
   
   get '/clusters' do
     @keys = redis.smembers("server_groups")
-    haml :clusters
+    erb :clusters
   end
   
   get '/servers/*' do
@@ -47,7 +47,7 @@ class Central < Sinatra::Base
     else
       []
     end
-    haml :node   
+    erb :node   
   end
 
   post '/servers' do
@@ -63,7 +63,7 @@ class Central < Sinatra::Base
   post '/clusters' do
     id = counter
     @cluster_name = params[:name]
-    redis.sadd "clusters", @cluster_name
+    redis.sadd "server_groups", @cluster_name
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
