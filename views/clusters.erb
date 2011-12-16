@@ -1,0 +1,13 @@
+<h1> Current Clusters </h1>
+
+<table>
+  <tbody>
+    <% @keys.each do |key| %>
+      <tr>
+	<td>
+          <a href ="/servers/server_groups:<%= key %>"}><%= key %></a>
+	</td>
+      </tr>
+<% end %>
+  </tbody>
+</table>
