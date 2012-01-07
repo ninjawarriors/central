@@ -10,7 +10,7 @@
         <!--    Use the .htaccess and remove these lines to avoid edge case issues.
                     More info: h5bp.com/b/378 -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title><%= @title %></title>
+        <title><%= @title ? @title + " - " : "" %> Central - Ninjawarriors</title>
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -46,6 +46,7 @@
             <ul class="nav">
               <li><a href="/nodes">Nodes</a></li>
               <li><a href="/clusters">Clusters</a></li>
+              <li><a href="/command">Command</a></li>
             </ul>
           </div>
         </div>
