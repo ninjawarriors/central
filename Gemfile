@@ -15,6 +15,7 @@ gem "redis"
 gem "resque"
 gem "json"
 gem "SystemTimer"
+gem "systemu"
 gem "resque-batched-job"
 
 group :production do
