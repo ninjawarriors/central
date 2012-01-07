@@ -1,0 +1,19 @@
+!!!
+%html
+	%head
+		%title Central - Ninjawarriors
+		%link(rel="stylesheet" href="css/bootstrap.min.css")
+	%body
+		.topbar
+			.topbar-inner
+				.container-fluid
+					%a(href="/" class="brand")Ninja Warriors - Central
+					%ul(class="nav")
+						%li
+							%a(href="/nodes")Nodes
+						%li
+							%a(href="/clusters")Clusters
+						%li
+							%a(href="/command")Command
+			.content
+				=yield

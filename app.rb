@@ -18,7 +18,7 @@ class Central < Sinatra::Base
   end
   
   get '/' do
-    erb :index
+    haml :index
   end
   
   get '/clusters' do

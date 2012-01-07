@@ -1,7 +1,10 @@
-%html
-%body
-  %h1 Current Servers
-  %ul
-    -@keys.each do |key|
-      %li
-        %a{:href => "/serverlist/#{key}"}= key
+%form{ :action => "/servers", :method => "post", :class => "form-stacked"}
+	%label{:for => "name"} Node Name:
+	%input{:type => "text", :size => "30", :name => "name", :class => "xlarge", :id => "xlInput"}
+	%label{:for => "cluster_membership"} Which Cluster does this node belong to
+	%input{:type => "text", :name => "cluster_membership"}
+	%input{:type => "submit", :value => "Create", :class => "btn"}
+%form{ :action => "/clusters", :method => "post", :class => "form-stacked"}
+	%label{:for => "name"}Cluster Name
+	%input{:type => "text", :name => "name"}
+	%input{:type => "submit", :value => "Create", :class => "btn"}
