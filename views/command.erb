@@ -1,0 +1,25 @@
+<h1>Run Command</h1>
+
+<form action='/command' method='post' class="form-stacked">
+  <label for='command'>Command</label>
+  <%= input_for 'command' %>
+  <%= input_for 'run', { :type => 'submit', :value => 'Run', :class => 'btn' } %>
+</form>
+
+<% @history.each do |history| %>
+  <% log = JSON.parse history %>
+  <h2><%= log["command"] %> <small>ID: <%= log["id"] %></small></h2>
+  <% if log["status"] > 0 %>
+    <span class="label warning">Status: <%= log["status"] %></span>
+  <% end %>
+  <% if log["stderr"] != "" %>
+  <span class="label important">Error!</span>
+  <pre><%= log["stderr"] %></pre>
+  <% end %>
+  <% if log["output"] != "" %>
+  <pre><%= log["output"] %></pre>
+  <% else %>
+  <span class="label notice">No Output</span>
+  <% end %>
+  <br />
+<% end %>

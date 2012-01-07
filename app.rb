@@ -1,15 +1,34 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'redis'
+require 'systemu'
+
+DEBUG = true
+
+$redis = Redis.new
 
 class Central < Sinatra::Base
   def self.debug msg
-    puts "d-b #{msg}"
+    puts "d-_-b #{msg}" if DEBUG
+  end
+
+  def self.redis
+    $redis
   end
 
   get '/' do
-    @title = 'CENTRAL'
     erb :index
+  end
+
+  get '/command' do
+    @title = 'Run Command'
+    @history = $redis.lrange "logs::command::run", 0, -1
+    erb :command
+  end
+  post '/command' do
+    id = counter
+    Resque.enqueue(CommandRun, id, params[:command])
+    redirect to('/command')
   end
 
   post '/servers' do
