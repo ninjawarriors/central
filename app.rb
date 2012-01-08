@@ -26,6 +26,10 @@ class Central < Sinatra::Base
     haml :clusters
   end
   
+  get "/nodes" do
+    haml :nodes
+  end
+
   get '/servers/*' do
     @keys = params[:splat].first.split('/')
     @servers = case redis.type(@keys)
