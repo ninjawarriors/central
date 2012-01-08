@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'redis'
+require 'haml'
 require 'systemu'
 
 DEBUG = true
@@ -15,9 +16,50 @@ class Central < Sinatra::Base
   def self.redis
     $redis
   end
-
+  
   get '/' do
-    erb :index
+    haml :index
+  end
+  
+  get '/clusters' do
+    @keys = redis.smembers("server_groups")
+    haml :clusters
+  end
+  
+  get "/nodes" do
+    haml :nodes
+  end
+
+  get '/servers/*' do
+    @keys = params[:splat].first.split('/')
+    @servers = case redis.type(@keys)
+    when "string"
+      Array(redis[@keys])
+    when "list"
+      redis.lrange(@keys, 0, -1)
+    when "set"
+      redis.smembers(@keys)
+    else
+      []
+    end
+    haml :servers
+  end
+  
+  get '/node/*' do
+    @keys = params[:splat].first.split('/')
+    @node = case redis.type(@keys)
+    when "string"
+      Array(redis[@keys])
+    when "hash"
+      redis.hgetall(@keys)
+    when "list"
+      redis.lrange(@keys, 0, -1)
+    when "set"
+      redis.smembers(@keys)
+    else
+      []
+    end
+    erb :node   
   end
 
   get '/command' do
@@ -33,12 +75,18 @@ class Central < Sinatra::Base
 
   post '/servers' do
     id = counter
+    @server_name = params[:name]
+    @cluster_name = params[:cluster_membership]
+    redis.sadd "cluster:#{@cluster_name}", @server_name
+    redis.hmset @server_name, "hostname", @server_name, "cluster", @cluster_name
     Resque.enqueue(ServerCreate, params[:name])
     redirect to('/')
   end
   
   post '/clusters' do
     id = counter
+    @cluster_name = params[:name]
+    redis.sadd "server_groups", @cluster_name
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
