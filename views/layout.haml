@@ -1,20 +1,21 @@
 !!!
 %html
-	%head
-		%title Central - Ninjawarriors
-		%link(rel="stylesheet" href="/css/bootstrap.min.css")
-	%body(style="padding-top:60px")
-		.topbar
-			.topbar-inner
-				.container-fluid
-					%a(href="/" class="brand")Central
-					%ul(class="nav")
-						%li
-							%a(href="/nodes")Nodes
-						%li
-							%a(href="/clusters")Clusters
-						%li
-							%a(href="/command")Command
-			.content
-				%link(rel="stylesheet" href="/css/bootstrap.min.css")
-				=yield
+  %head
+    %title
+      = @title ? @title + " - " : ""
+      Central - Ninjawarriors
+    %link(rel="stylesheet" href="/css/bootstrap.min.css")
+    %body(style="padding-top:60px")
+      .topbar
+        .topbar-inner
+          .container-fluid
+            %a(href="/" class="brand")Central
+            %ul(class="nav")
+              %li
+                %a(href="/nodes")Nodes
+              %li
+                %a(href="/clusters")Clusters
+              %li
+                %a(href="/command")Command
+      .container-fluid
+        =yield
