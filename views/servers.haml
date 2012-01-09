@@ -1,0 +1,5 @@
+%h1= "Servers in #{@keys}"
+%ul
+  -@servers.each do |servers|
+    %li
+      %a{:href => "/node/#{servers}"}= servers

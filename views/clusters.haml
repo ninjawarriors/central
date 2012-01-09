@@ -1,0 +1,14 @@
+%h1 Create a New Cluster
+%form{ :action => "/clusters", :method => "post", :class => "form-stacked"}
+	%label{:for => "name"}Cluster Name
+	%input{:type => "text", :name => "name"}
+	%input{:type => "submit", :value => "Create", :class => "btn"}
+%br
+%br
+%br
+%br
+%h1 Current Clusters
+%ul
+	-@keys.each do |key|
+		%li
+			%a{:href => "/servers/cluster:#{key}"}= key
