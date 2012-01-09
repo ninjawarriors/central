@@ -65,7 +65,7 @@ class Central < Sinatra::Base
   get '/command' do
     @title = 'Run Command'
     @history = $redis.lrange "logs::command::run", 0, -1
-    erb :command
+    haml :command
   end
   post '/command' do
     id = counter
