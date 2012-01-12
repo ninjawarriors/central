@@ -1,5 +1,4 @@
 %h1 Run Command
-
 %form{:action => "/command", :method => "post", :class => "form-stacked"}
   %label{:for => "command"}
     Command
@@ -9,22 +8,23 @@
 
 - @history.each do |history|
   - log = JSON.parse history
-  %h2
-    = log["command"]
-    %span{:class => "label"}
-      = "ID: #{log["id"]}"
-    - if log["status"] > 0
-      %span{:class => "label warning"}
-        = "Status: #{log["status"]}"
-    - if log["output"] == ""
-      %span{:class => "label notice"}
-        No Output
-  - if log["stderr"] != ""
-    %span{:class => "label important"}
-      Error!
-    %pre
-      = log["stderr"]
-  - if log["output"] != ""
-    %pre
-      = log["output"]
-  %br/
+  .row
+    .span16
+      %h2= log["command"]
+      %p
+        %span{:class => "label"}
+          = "ID: #{log["id"]}"
+        - if log["status"] > 0
+          %span{:class => "label warning"}
+            = "Status: #{log["status"]}"
+        - if log["output"] == ""
+          %span{:class => "label notice"}
+            No Output
+        - if log["stderr"] != ""
+          %span{:class => "label important"}
+            Error
+          %pre{:style => "border-color: red"}
+            = log["stderr"]
+      %p
+        %a{:href => "/command/#{log["id"]}", :class => "btn"} View Details »
+  %hr/
