@@ -14,17 +14,22 @@
       %p
         %span{:class => "label"}
           = "ID: #{log["id"]}"
+
         - if log["status"] > 0
           %span{:class => "label warning"}
             = "Status: #{log["status"]}"
-        - if log["output"] == ""
+
+        - unless $redis.exists "logs::#{log["id"]}::stdout"
           %span{:class => "label notice"}
             No Output
-        - if log["stderr"] != ""
+
+        - if $redis.exists "logs::#{log["id"]}::stderr"
+          - stderr = $redis.lrange "logs::#{log["id"]}::stderr", 0, -1
           %span{:class => "label important"}
             Error
           %pre{:style => "border-color: red"}
-            = log["stderr"]
+            = stderr.join("\n")
+
       %p
         %a{:href => "/command/#{log["id"]}", :class => "btn"} View Details »
   %hr/
