@@ -42,11 +42,6 @@ else                            # development or testing only
   use Rack::ShowExceptions
 end
 
-# ===============
-# = Application =
-# ===============
-$redis = Redis.new
-
 # =================
 # = Configuration =
 # =================
