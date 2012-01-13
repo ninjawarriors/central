@@ -14,7 +14,7 @@ gem "haml"
 gem "redis"
 gem "resque"
 gem "json"
-gem "SystemTimer"
+gem "SystemTimer", :platforms => :ruby_18 # only install SystemTimer on 1.8.7
 gem "systemu"
 gem "resque-batched-job"
 
