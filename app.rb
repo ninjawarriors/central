@@ -2,7 +2,8 @@ require 'rubygems' if RUBY_VERSION < '1.9'
 require 'sinatra/base'
 require 'redis'
 require 'haml'
-require 'systemu'
+require 'open4'
+include Open4
 
 DEBUG = true
 
@@ -65,12 +66,38 @@ class Central < Sinatra::Base
   get '/command' do
     @title = 'Run Command'
     @history = $redis.lrange "logs::command::run", 0, -1
-    haml :command
+    haml :'command/index'
   end
   post '/command' do
     id = counter
     Resque.enqueue(CommandRun, id, params[:command])
     redirect to('/command')
+  end
+  get '/command/:id' do
+    haml :'command/details'
+  end
+  get '/command/:id/tail/:stream' do
+    id = params[:id]
+    stream do |out|
+      out << "<pre>"
+      out << "Tailing #{params[:stream]} for id #{params[:id]}\n\n"
+      init = $redis.lrange("logs::#{params[:id]}::#{params[:stream]}", 0, -1)
+      size = init.length
+      Central.debug "#{id}----Size >> #{size}"
+      out << init.join("\n")
+      out << "\n"
+
+      while true
+        n = $redis.lrange("logs::#{params[:id]}::#{params[:stream]}", size, -1)
+        if n.length > 0
+          size += n.length
+          Central.debug "#{id}----Size >> #{size}"
+          out << n.join("\n")
+          out << "\n"
+        end
+        sleep 1
+      end
+    end
   end
 
   post '/servers' do
