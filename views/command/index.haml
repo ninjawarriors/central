@@ -27,8 +27,7 @@
           - stderr = $redis.lrange "logs::#{log["id"]}::stderr", 0, -1
           %span{:class => "label important"}
             Error
-          %pre{:style => "border-color: red"}
-            = stderr.join("\n")
+          ~ "<pre style='border-color:red'>" + stderr.join("\n") + "</pre>"
 
       %p
         %a{:href => "/command/#{log["id"]}", :class => "btn"} View Details »
