@@ -60,7 +60,7 @@ class Central < Sinatra::Base
     else
       []
     end
-    erb :node   
+    haml :node   
   end
 
   get '/command' do
