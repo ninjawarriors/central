@@ -1,3 +1,5 @@
+require 'json'
+
 class RedisTailer
   def initialize id, type
     @id = id
