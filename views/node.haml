@@ -1,21 +1,7 @@
-%html
-%body
-  %h1= "Servers in #{@keys}"
-  %ul
-    %form{:name => "email", :id => "email", :action => "/contact", :method => "post", :enctype => "text/plain"}
-  %fieldset
-    %ol
-      %li
-        %label{:for => "message[name]"} Name:
-        %input{:type => "text", :name => "message[name]", :class => "text"}
-      %li
-        %label{:for => "message[mail]"} Mail:
-        %input{:type => "text", :name => "message[mail]", :class => "text"}
-    %input{:type => "submit", :value => "Send", :class => "button"}
-
-    %table
-      %tbody
-        -@node.each do |key, value|
-          %tr
-            %td= key
-            %td= value
+%h1= "Node Details: #{@keys}"
+%table
+  %tbody
+    -@node.each do |key, value|
+      %tr
+        %td= key
+        %td= value
