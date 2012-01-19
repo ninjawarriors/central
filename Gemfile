@@ -9,6 +9,7 @@ gem "rack", "1.3.6"             # the base of the base
 gem "sinatra"                   # the base of our web app
 #gem "rack-flash"                # enables flash[:notice] && flash[:error]
 gem "thin"                      # thin server
+gem "unicorn"                   # unicorn - testing a different server
 
 gem "haml"
 gem "redis"
