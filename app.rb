@@ -66,7 +66,7 @@ class Central < Sinatra::Base
   get '/command' do
     @title = 'Run Command'
     @history = $redis.lrange "logs::command::run", 0, -1
-    haml :'command/index'
+    haml 'command/index'
   end
   post '/command' do
     id = counter
@@ -74,7 +74,7 @@ class Central < Sinatra::Base
     redirect to('/command')
   end
   get '/command/:id' do
-    haml :'command/details'
+    haml 'command/details'
   end
   get '/command/:id/tail/:stream' do
     id = params[:id]
