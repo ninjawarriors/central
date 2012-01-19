@@ -10,6 +10,7 @@ gem "sinatra"                   # the base of our web app
 #gem "rack-flash"                # enables flash[:notice] && flash[:error]
 gem "thin"                      # thin server
 gem "chef"
+gem "knife-rackspace"
 
 gem "haml"
 gem "redis"
