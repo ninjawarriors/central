@@ -25,15 +25,17 @@ class Central
     def self.perform(id, command, options = {})
       started = Time.now.to_i
       Central.debug "Running Arbitrary Command ID: #{id} --- #{command}"
+      error = nil
       stdout = RedisTailer.new id, "stdout"
       stderr = RedisTailer.new id, "stderr"
       #status = systemu command, 'stdout' => stdout, 'stderr' => stderr
       begin
         status = spawn command, 'stdout' => stdout, 'stderr' => stderr
-      rescue Open4::SpawnError
+      rescue => e
+        error = e
       end
       finished = Time.now.to_i
-      Central.redis.lpush "logs::command::run", { :id => id, :status => status.to_i, :command => command, :started => started, :finished => finished }.to_json
+      Central.redis.lpush "logs::command::run", { :id => id, :status => status.to_i, :error => error, :command => command, :started => started, :finished => finished }.to_json
       # TODO: I've removed trimming since this is just metadata right now... Need to figure out trimming of the actual logs
       #       maybe this should be a function of an admin portal of some kind
       #Central.redis.ltrim "logs::command::run", 0, 1000
