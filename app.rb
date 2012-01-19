@@ -73,7 +73,9 @@ class Central < Sinatra::Base
     Resque.enqueue(CommandRun, id, params[:command])
     redirect to('/command')
   end
-  get '/command/:id' do
+  get '/command/*' do
+    @keys = params[:splat].first.split('/')
+    @details = $redis.lrange "logs::#{@keys}::stdout", 0, -1
     haml :'command/details'
   end
   get '/command/:id/tail/:stream' do
