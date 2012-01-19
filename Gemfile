@@ -11,6 +11,7 @@ gem "sinatra"                   # the base of our web app
 gem "thin"                      # thin server
 gem "chef"
 gem "knife-rackspace"
+gem "unicorn"                   # unicorn - testing a different server
 
 gem "haml"
 gem "redis"

@@ -15,6 +15,10 @@
         %span{:class => "label"}
           = "ID: #{log["id"]}"
 
+        - if log["error"] and log["error"] != ""
+          %span{:class => "label warning"}
+            = "Error: #{log["error"]}"
+
         - if log["status"] > 0
           %span{:class => "label warning"}
             = "Status: #{log["status"]}"

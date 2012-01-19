@@ -31,6 +31,21 @@ class Central
       super
     end
     
+    # overrides Sinatra's defaults to allow calling like this:
+    #   haml 'partials/flash'
+    #
+    # instead of
+    #   haml 'partials/flash'.to_sym
+    #
+    # or
+    #   haml :"partials/flash"
+    #
+    # which is just weird and ugly.
+    def haml path, *args
+      path = path.to_sym
+      super
+    end
+
     # link helper
     # 
     #   <%= link_to 'click here to get awesome hawtness', '/hawtness' %>
