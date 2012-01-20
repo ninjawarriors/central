@@ -65,7 +65,11 @@ class Central < Sinatra::Base
 
   get '/command' do
     @title = 'Run Command'
-    @history = $redis.lrange "logs::command::run", 0, -1
+    @commands = {}
+    @ids = $redis.lrange("logs::command::run", 0, -1).reverse
+    @ids.each do |id|
+      @commands[id] = JSON.parse $redis.get "logs::#{id}"
+    end
     haml 'command/index'
   end
   post '/command' do
@@ -73,9 +77,12 @@ class Central < Sinatra::Base
     Resque.enqueue(CommandRun, id, params[:command])
     redirect to('/command')
   end
-  get '/command/*' do
-    @keys = params[:splat].first.split('/')
-    @details = $redis.lrange "logs::#{@keys}::stdout", 0, -1
+  get '/command/:id' do
+    @id = params[:id]
+    @details = JSON.parse $redis.get "logs::#{@id}"
+    @logs = {}
+    @logs[:stdout] = $redis.lrange "logs::#{@id}::stdout", 0, -1
+    @logs[:stderr] = $redis.lrange "logs::#{@id}::stderr", 0, -1
     haml 'command/details'
   end
   get '/command/:id/tail/:stream' do
