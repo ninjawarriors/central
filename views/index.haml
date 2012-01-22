@@ -1,3 +1,9 @@
 %h1 Dashboard
 
-%p Work In Progress
+%p Cluster Status
+%ul
+  - @keys.each do |key|
+    %li
+      = redis.scard "cluster:#{key}"
+      nodes in 
+      %a{:href => "/servers/cluster:#{key}"}= key

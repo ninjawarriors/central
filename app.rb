@@ -7,7 +7,7 @@ include Open4
 
 DEBUG = true
 
-$redis = Redis.new
+$redis = Redis.new(:host => "cms.choochee.com", :password => "ch00ch33!")
 
 class Central < Sinatra::Base
   def self.debug msg
@@ -15,15 +15,16 @@ class Central < Sinatra::Base
   end
 
   def self.redis
-    $redis
+    $redis = Redis.new(:host => "cms.choochee.com", :password => "ch00ch33!")
   end
   
   get '/' do
+    @keys = redis.smembers("clusters")
     haml :index
   end
   
   get '/clusters' do
-    @keys = redis.smembers("server_groups")
+    @keys = redis.smembers("clusters")
     haml :clusters
   end
   
@@ -115,7 +116,7 @@ class Central < Sinatra::Base
   post '/clusters' do
     id = counter
     @cluster_name = params[:name]
-    redis.sadd "server_groups", @cluster_name
+    redis.sadd "clusters", @cluster_name
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
