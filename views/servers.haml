@@ -1,7 +1,19 @@
+
 %h1= "Servers in #{@keys}"
 %ul
   -@servers.each do |servers|
     %li
       %a{:href => "/node/#{servers}"}= servers
 
-%input{:name => "refresh", :type => "submit", :value => "Refresh", :class => "btn info"}
+%input{:class => 'btn danger', :"data-controls-modal" => "modal-from-dom", :"data-keyboard"=>"true", :"data-backdrop"=>"true"}
+
+#modal-from-dom.modal.hide.fade
+  .modal-header
+    %a.close(href='#')='&times'
+    %h3
+      Join an open pod.
+  .modal-body
+    %p
+      FOO
+  .modal-footer
+    %input.btn.secondary(type='submit' value='Close')
