@@ -3,3 +3,5 @@
   -@servers.each do |servers|
     %li
       %a{:href => "/node/#{servers}"}= servers
+
+%input{:name => "refresh", :type => "submit", :value => "Refresh", :class => "btn info"}
