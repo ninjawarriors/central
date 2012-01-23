@@ -5,6 +5,7 @@ require 'haml'
 require 'open4'
 include Open4
 
+
 DEBUG = true
 
 $redis = Redis.new
@@ -19,11 +20,12 @@ class Central < Sinatra::Base
   end
   
   get '/' do
+    @keys = redis.smembers("clusters")
     haml :index
   end
   
   get '/clusters' do
-    @keys = redis.smembers("server_groups")
+    @keys = redis.smembers("clusters")
     haml :clusters
   end
   
@@ -43,6 +45,11 @@ class Central < Sinatra::Base
     else
       []
     end
+    @foo = Array.new
+    @servers.each do |s|
+      @foo << redis.hgetall(s)
+    end
+
     haml :servers
   end
   
@@ -115,7 +122,7 @@ class Central < Sinatra::Base
   post '/clusters' do
     id = counter
     @cluster_name = params[:name]
-    redis.sadd "server_groups", @cluster_name
+    redis.sadd "clusters", @cluster_name
     Resque.enqueue(ClusterCreate, params[:name])
     redirect to('/')
   end
