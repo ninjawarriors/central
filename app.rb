@@ -5,9 +5,10 @@ require 'haml'
 require 'open4'
 include Open4
 
+
 DEBUG = true
 
-$redis = Redis.new(:host => "cms.choochee.com", :password => "ch00ch33!")
+$redis = Redis.new
 
 class Central < Sinatra::Base
   def self.debug msg
@@ -15,7 +16,7 @@ class Central < Sinatra::Base
   end
 
   def self.redis
-    $redis = Redis.new(:host => "cms.choochee.com", :password => "ch00ch33!")
+    $redis
   end
   
   get '/' do
@@ -44,6 +45,11 @@ class Central < Sinatra::Base
     else
       []
     end
+    @foo = Array.new
+    @servers.each do |s|
+      @foo << redis.hgetall(s)
+    end
+
     haml :servers
   end
   

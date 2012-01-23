@@ -9,7 +9,7 @@ class Central
     alias_method :e, :escape
     
     def redis
-      @redis = Redis.new(:host => "cms.choochee.com", :password => "ch00ch33!")
+      @redis ||= Redis.new
     end
     
     def counter
