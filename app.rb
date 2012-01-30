@@ -5,18 +5,26 @@ require 'haml'
 require 'open4'
 include Open4
 
-
 DEBUG = true
 
 $redis = Redis.new
+
+class NilClass
+  def method_missing(*args, &block)
+    nil
+  end
+end
 
 class Central < Sinatra::Base
   def self.debug msg
     puts "d-_-b #{msg}" if DEBUG
   end
 
-  def self.redis
-    $redis
+  def self.redis; $redis; end
+  def self.counter; redis.incr "global_counter"; end
+
+  def self.scheduler
+    @scheduler = Scheduler.instance
   end
   
   get '/' do
@@ -72,17 +80,23 @@ class Central < Sinatra::Base
 
   get '/command' do
     @title = 'Run Command'
-    @history = $redis.lrange "logs::command::run", 0, -1
+    @commands = {}
+    @ids = $redis.lrange("logs::command::run", 0, -1).reverse
+    @ids.each do |id|
+      @commands[id] = JSON.parse $redis.get "logs::#{id}"
+    end
     haml 'command/index'
   end
   post '/command' do
-    id = counter
-    Resque.enqueue(CommandRun, id, params[:command])
+    Central.scheduler.add_schedule params
     redirect to('/command')
   end
-  get '/command/*' do
-    @keys = params[:splat].first.split('/')
-    @details = $redis.lrange "logs::#{@keys}::stdout", 0, -1
+  get '/command/:id' do
+    @id = params[:id]
+    @details = JSON.parse $redis.get "logs::#{@id}"
+    @logs = {}
+    @logs[:stdout] = $redis.lrange "logs::#{@id}::stdout", 0, -1
+    @logs[:stderr] = $redis.lrange "logs::#{@id}::stderr", 0, -1
     haml 'command/details'
   end
   get '/command/:id/tail/:stream' do
@@ -109,6 +123,14 @@ class Central < Sinatra::Base
     end
   end
 
+  get '/scheduler' do
+    haml :scheduler
+  end
+  post '/scheduler' do
+    Central.scheduler.add_schedule params unless params[:command] == ""
+    redirect to('/scheduler')
+  end
+
   post '/servers' do
     id = counter
     @server_name = params[:name]
@@ -128,7 +150,10 @@ class Central < Sinatra::Base
   end
 end
 
-# further requires (models, helpers, core extensions etc. { but not 'middleware' because that should be grabbed up by Rack when appropriate })
-Dir.glob('./lib/**/*.rb') do |file|
-  require file.gsub(/\.rb/, '') unless file.include?('middleware')
-end
+# Since we don't want resque workers running the scheduler, we check for
+# QUEUE in the environment, which means it's a worker looking at a queue
+# TODO: Split the workers out better so we don't have to load the entire
+# stack every time
+require './lib/scheduler'
+
+require './lib/libraries'

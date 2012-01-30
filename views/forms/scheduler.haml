@@ -1,0 +1,36 @@
+.input
+  %label{:for => "repeat"} Repeat?
+  %select{:name => "repeat"}
+    %option{:value => "no"} No
+    %option{:value => "yes"} Yes
+.input
+  %label{:for => "hr"} Hour
+  %select{:name => "hr"}
+    %option{:value => "*"} Every
+    - 0.upto 23 do |n|
+      %option{:value => n}= "%02d" % n
+.input
+  %label{:for => "min"} Minute
+  %select{:name => "min"}
+    %option{:value => "*"} Every
+    - 0.upto 59 do |n|
+      %option{:value => n}= "%02d" % n
+.input
+  %label{:for => "date"} Day of Month
+  %select{:name => "date"}
+    %option{:value => "*"} Every
+    - 1.upto 31 do |n|
+      %option{:value => n}= "%02d" % n
+.input
+  %label{:for => "month"} Month
+  %select{:name => "month"}
+    %option{:value => "*"} Every
+    - 1.upto 12 do |n|
+      %option{:value => n}= "%02d" % n
+- days = { 0 => 'Monday', 1 => 'Tuesday', 2 => 'Wednesday', 3 => 'Thursday', 4 => 'Friday', 5 => 'Saturday', 6 => 'Sunday' }
+.input
+  %label{:for => "day"} Day of Week
+  %select{:name => "day"}
+    %option{:value => "*"} Every
+    - days.each do |n,v|
+      %option{:value => n}= v

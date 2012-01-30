@@ -16,6 +16,7 @@ gem "unicorn"                   # unicorn - testing a different server
 gem "haml"
 gem "redis"
 gem "resque"
+gem "rufus-scheduler"
 gem "json"
 gem "SystemTimer", :platforms => :ruby_18 # only install SystemTimer on 1.8.7
 gem "open4"

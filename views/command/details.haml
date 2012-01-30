@@ -1,3 +1,12 @@
--@details.each do |d|
-  %li
-    %p= d
+%h1= @details["command"]
+- @details.each do |k,v|
+  - next if k == "command"
+  %h3
+    = v
+    %small= k
+- if @logs[:stderr] and not @logs[:stderr].empty?
+  %h2 Error
+  ~ "<pre style='border-color:red'>" + @logs[:stderr].join("\n") + "</pre>"
+- if @logs[:stdout] and not @logs[:stdout].empty?
+  %h2 Output
+  %pre= @logs[:stdout].join("\n")
