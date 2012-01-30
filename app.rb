@@ -5,18 +5,26 @@ require 'haml'
 require 'open4'
 include Open4
 
-
 DEBUG = true
 
 $redis = Redis.new
+
+class NilClass
+  def method_missing(*args, &block)
+    nil
+  end
+end
 
 class Central < Sinatra::Base
   def self.debug msg
     puts "d-_-b #{msg}" if DEBUG
   end
 
-  def self.redis
-    $redis
+  def self.redis; $redis; end
+  def self.counter; redis.incr "global_counter"; end
+
+  def self.scheduler
+    @scheduler = Scheduler.instance
   end
   
   get '/' do
@@ -80,8 +88,7 @@ class Central < Sinatra::Base
     haml 'command/index'
   end
   post '/command' do
-    id = counter
-    Resque.enqueue(CommandRun, id, params[:command])
+    Central.scheduler.add_schedule params
     redirect to('/command')
   end
   get '/command/:id' do
@@ -116,6 +123,14 @@ class Central < Sinatra::Base
     end
   end
 
+  get '/scheduler' do
+    haml :scheduler
+  end
+  post '/scheduler' do
+    Central.scheduler.add_schedule params unless params[:command] == ""
+    redirect to('/scheduler')
+  end
+
   post '/servers' do
     id = counter
     @server_name = params[:name]
@@ -135,7 +150,10 @@ class Central < Sinatra::Base
   end
 end
 
-# further requires (models, helpers, core extensions etc. { but not 'middleware' because that should be grabbed up by Rack when appropriate })
-Dir.glob('./lib/**/*.rb') do |file|
-  require file.gsub(/\.rb/, '') unless file.include?('middleware')
-end
+# Since we don't want resque workers running the scheduler, we check for
+# QUEUE in the environment, which means it's a worker looking at a queue
+# TODO: Split the workers out better so we don't have to load the entire
+# stack every time
+require './lib/scheduler'
+
+require './lib/libraries'

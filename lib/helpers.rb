@@ -46,6 +46,13 @@ class Central
       super
     end
 
+    # render a partial page from a template
+    #
+    def partial template, *args
+      options = { :layout => false }
+      haml template, options
+    end
+
     # link helper
     # 
     #   <%= link_to 'click here to get awesome hawtness', '/hawtness' %>

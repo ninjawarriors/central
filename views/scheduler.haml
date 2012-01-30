@@ -1,0 +1,9 @@
+%h1 Scheduler Management
+%h2 New
+%form{:action => "/scheduler", :method => "post"}
+  .input
+    %label{:for => "command"} Command
+    %input{:name => "command"}/
+  = partial "forms/scheduler"
+  .actions
+    %input{:name => "schedule", :type => "submit", :value => "Schedule", :class => "btn"}/

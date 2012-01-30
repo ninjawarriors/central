@@ -1,12 +1,14 @@
 %h1 Run Command
 %form{:action => "/command", :method => "post", :class => "form-stacked"}
-  %label{:for => "command"}
-    Command
-  - input_for 'command'
-  %input{:name => "command"}/
-  %input{:name => "run", :type => "submit", :value => "Run", :class => "btn"}/
+  .input
+    %label{:for => "command"} Command
+    %input{:name => "command"}/
+  = partial "forms/scheduler"
+  .actions
+    %input{:name => "run", :type => "submit", :value => "Run", :class => "btn"}/
 
-- @commands.each do |id,log|
+- @ids.reverse.each do |id|
+  - log = @commands[id]
   .row
     .span16
       %h2= log["command"]
