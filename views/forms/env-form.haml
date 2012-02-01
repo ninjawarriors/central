@@ -1,0 +1,5 @@
+- days = { 0 => 'Ops', 1 => 'Dev', 2 => 'QA', 3 => 'Staging', 4 => 'Beta', 5 => 'Prod' }
+.input
+%select{:name => "cluster_membership"}
+  - days.each do |n,v|
+    %option{:value => n}= v
