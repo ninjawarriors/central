@@ -41,6 +41,11 @@ class Central < Sinatra::Base
     haml :nodes
   end
 
+  get "/environments" do
+    @keys = redis.smembers("environments")
+    haml :environments
+  end
+
   get '/servers/*' do
     @keys = params[:splat].first.split('/')
     @servers = case redis.type(@keys)
@@ -146,6 +151,13 @@ class Central < Sinatra::Base
     @cluster_name = params[:name]
     redis.sadd "clusters", @cluster_name
     Resque.enqueue(ClusterCreate, params[:name])
+    redirect to('/')
+  end
+
+  post '/environments' do
+    id = counter
+    @env_name = params[:name]
+    redis.sadd "environments", @env_name
     redirect to('/')
   end
 end
