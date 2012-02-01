@@ -1,4 +1,4 @@
-- days = { 0 => 'Ops', 1 => 'Dev', 2 => 'QA', 3 => 'Staging', 4 => 'Beta', 5 => 'Prod' }
+- days = { 'Ops' => 'Ops', 'Dev' => 'Dev', 'QA' => 'QA', 'Staging' => 'Staging', 'Beta' => 'Beta', 'Prod' => 'Prod' }
 .input
 %select{:name => "cluster_membership"}
   - days.each do |n,v|
