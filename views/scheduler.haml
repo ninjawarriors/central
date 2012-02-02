@@ -7,3 +7,30 @@
   = partial "forms/scheduler"
   .actions
     %input{:name => "schedule", :type => "submit", :value => "Schedule", :class => "btn"}/
+
+%h1 Active Schedules
+%table.table-striped
+  %thead
+    %tr
+      %th ID
+      %th Minute
+      %th Hour
+      %th Date
+      %th Month
+      %th Day
+      %th Command
+      %th Actions
+  %tbody
+    - @schedules.each do |id,schedule|
+      %tr
+        %td= id
+        %td= schedule["min"]
+        %td= schedule["hr"]
+        %td= schedule["date"]
+        %td= schedule["month"]
+        %td= schedule["day"]
+        %td= schedule["command"]
+        %td
+          %form{:action => "/scheduler/#{id}", :method => "post"}
+            %input{:type => "hidden", :name => "_method", :value => "delete"}/
+            %input.btn.danger{:type => "submit", :name => "delete", :value => "Delete"}/
