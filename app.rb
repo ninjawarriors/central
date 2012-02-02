@@ -16,6 +16,7 @@ class NilClass
 end
 
 class Central < Sinatra::Base
+  set :method_override, true
   def self.debug msg
     puts "d-_-b #{msg}" if DEBUG
   end
@@ -126,14 +127,6 @@ class Central < Sinatra::Base
         sleep 1
       end
     end
-  end
-
-  get '/scheduler' do
-    haml :scheduler
-  end
-  post '/scheduler' do
-    Central.scheduler.add_schedule params unless params[:command] == ""
-    redirect to('/scheduler')
   end
 
   post '/servers' do
