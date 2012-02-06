@@ -38,6 +38,9 @@ class Central
       end
       finished = Time.now.to_i
       Central.redis.lpush "logs::command::run", id
+      options[:trackers].each do |tracker|
+        Central.redis.lpush tracker, id
+      end
       Central.redis.set "logs::#{id}", { :id => id, :status => status.to_i, :error => error, :command => command, :started => started, :finished => finished }.to_json
       # TODO: I've removed trimming since this is just metadata right now... Need to figure out trimming of the actual logs
       #       maybe this should be a function of an admin portal of some kind

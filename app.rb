@@ -1,6 +1,7 @@
 require 'rubygems' if RUBY_VERSION < '1.9'
 require 'sinatra/base'
 require 'redis'
+require 'resque'
 require 'haml'
 require 'open4'
 include Open4
@@ -8,6 +9,7 @@ include Open4
 DEBUG = true
 
 $redis = Redis.new
+Resque.redis = $redis
 
 class NilClass
   def method_missing(*args, &block)
@@ -156,7 +158,8 @@ class Central < Sinatra::Base
     id = counter
     @cluster_name = params[:name]
     redis.sadd "clusters", @cluster_name
-    Resque.enqueue(ClusterCreate, params[:name])
+    command = "knife client list | grep test"
+    Resque.enqueue(CommandRun, Central.counter, command, {:trackers => ["command::DeployCluster"]})
     redirect to('/')
   end
 
