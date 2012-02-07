@@ -18,6 +18,20 @@ class NilClass
 end
 
 class Central < Sinatra::Base
+
+  environment_list = []
+  # read config file
+  if File.exist?("config.yml")
+    cfg = YAML.load_file("config.yml")
+    if cfg then
+      cfg.each do |k, v|
+        v.each do |env|
+          environment_list << env
+        end
+      end
+    end
+  end
+
   set :method_override, true
   def self.debug msg
     puts "d-_-b #{msg}" if DEBUG
@@ -41,11 +55,13 @@ class Central < Sinatra::Base
   end
   
   get "/nodes" do
+    @environment_list = environment_list
     haml :nodes
   end
 
   get "/environments" do
     @keys = redis.smembers("environments")
+    @environment_list = environment_list
     haml :environments
   end
 
