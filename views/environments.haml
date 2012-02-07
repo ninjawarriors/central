@@ -1,13 +1,6 @@
-%h1 Create a New Environment
-%form{ :action => "/environments", :method => "post", :class => "form-stacked"}
-  %label{:for => "name"}
-    Environment Name
-  %input{:type => "text", :name => "name"}
-  %input{:type => "submit", :value => "Create", :class => "btn"}
-
 %h1 Current Environments
 %ul
-  - @keys.each do |key|
+  - @config["environments"].each do |key|
     %br
       %br
         %li

@@ -1,0 +1,6 @@
+environments:
+- ops
+- qa
+- staging
+- beta
+- prod
