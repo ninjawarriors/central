@@ -18,6 +18,13 @@ class NilClass
 end
 
 class Central < Sinatra::Base
+
+  def initialize
+    super
+    # read the config file
+    @config = File.exists?("config/config.yml") ? YAML.load_file("config/config.yml") : {}
+  end
+
   set :method_override, true
   def self.debug msg
     puts "d-_-b #{msg}" if DEBUG
