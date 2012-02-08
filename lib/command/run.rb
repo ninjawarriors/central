@@ -37,7 +37,7 @@ class Central
         error = e
       end
       finished = Time.now.to_i
-      Central.redis.lpush "logs::command::run", id
+      Central.redis.rpush "logs::command::run", id
       options[:trackers].each do |tracker|
         Central.redis.lpush tracker, id
       end

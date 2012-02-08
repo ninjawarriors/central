@@ -1,9 +1,10 @@
-%h1 Dashboard
-
-%p Cluster Status
-%ul
-  - @keys.each do |key|
-    %li
-      = redis.scard "cluster:#{key}"
-      nodes in 
-      %a{:href => "/servers/cluster:#{key}"}= key
+%h1 Cluster Status
+- @keys.each do |key|
+  .span3.well
+    %h2{:href => "/servers/cluster:#{key}"}
+      = key
+      %small
+        = redis.scard "cluster:#{key}"
+        nodes
+    %small
+      %a{:href => "/servers/cluster:#{key}"} Details &gt;&gt;

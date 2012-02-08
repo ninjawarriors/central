@@ -1,7 +1,4 @@
 %h1 Current Environments
-%ul
-  - @config["environments"].each do |key|
-    %br
-      %br
-        %li
-          %a{:href => "/servers/cluster:#{key}", :class => "alert-message block-message success", :style => "display: block; height: 90px; width: 90px; line-height: 90px; text-align: center"}= key
+- @config["environments"].each do |key|
+  .alert.alert-success
+    %a{:href => "/servers/cluster:#{key}"}= key
