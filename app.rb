@@ -11,6 +11,17 @@ DEBUG = true
 $redis = Redis.new
 Resque.redis = $redis
 
+# Migrate to new command order
+i0 = $redis.lindex "logs::command::run", 0
+in1 = $redis.lindex "logs::command::run", -1
+if i0 > in1
+  list = $redis.lrange "logs::command::run", 0, -1
+  $redis.del "logs::command::run"
+  list.each do |l|
+    $redis.lpush "logs::command::run", l
+  end
+end
+
 class NilClass
   def method_missing(*args, &block)
     nil
