@@ -8,10 +8,10 @@
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"}
     %script{:src => "../../js/bootstrap-modal.js"}
     %body(style="padding-top:60px")
-      .topbar
-        .topbar-inner
+      .navbar.navbar-fixed-top
+        .navbar-inner
           .container-fluid
-            %a(href="/" class="brand")Central
+            %a.brand{:href => "/"} Central
             %ul(class="nav")
               %li
                 %a(href="/environments")Environments
@@ -20,11 +20,10 @@
               %li
                 %a(href="/clusters")Clusters
               %li
-                %a(href="/command")Command
+                %a(href="/command") Commands
               %li
                 %a{:href => "/scheduler"} Scheduler
       .container-fluid
-        .sidebar
-          .well
-        .content
-          =yield
+        .row-fluid
+          .span12
+            =yield

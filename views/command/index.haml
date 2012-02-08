@@ -1,39 +1,41 @@
-%h1 Run Command
-%form{:action => "/command", :method => "post", :class => "form-stacked"}
-  .input
-    %label{:for => "command"} Command
-    %input{:name => "command"}/
-  = partial "forms/scheduler"
-  .actions
-    %input{:name => "run", :type => "submit", :value => "Run", :class => "btn"}/
+%h1 Commands
+.span2.well
+  %form{:action => "/command", :method => "post"}
+    .input
+      %label{:for => "command"} Command
+      %input{:name => "command"}/
+    = partial "forms/scheduler"
+    .actions
+      %input{:name => "run", :type => "submit", :value => "Run", :class => "btn"}/
 
-- @ids.reverse.each do |id|
-  - log = @commands[id]
-  .row
-    .span16
-      %h2= log["command"]
-      %p
-        %span{:class => "label"}
-          = "ID: #{id}"
+.span9
+  - @ids.each do |id|
+    - log = @commands[id]
+    .row
+      .span9
+        %h2= log["command"] || "Unknown Command"
+        %p
+          %span.label
+            = "ID: #{id}"
 
-        - if log["error"] and log["error"] != ""
-          %span{:class => "label warning"}
-            = "Error: #{log["error"]}"
+          - if log["error"] and log["error"] != ""
+            %span.label.label-warning
+              = "Error: #{log["error"]}"
 
-        - if log["status"] > 0
-          %span{:class => "label warning"}
-            = "Status: #{log["status"]}"
+          - if log["status"] > 0
+            %span.label.label-warning
+              = "Status: #{log["status"]}"
 
-        - unless $redis.exists "logs::#{id}::stdout"
-          %span{:class => "label notice"}
-            No Output
+          - unless $redis.exists "logs::#{id}::stdout"
+            %span.label.label-notice
+              No Output
 
-        - if $redis.exists "logs::#{id}::stderr"
-          - stderr = $redis.lrange "logs::#{id}::stderr", 0, -1
-          %span{:class => "label important"}
-            Error
-          ~ "<pre style='border-color:red'>" + stderr.join("\n") + "</pre>"
+          - if $redis.exists "logs::#{id}::stderr"
+            - stderr = $redis.lrange "logs::#{id}::stderr", 0, -1
+            %span.label.label-important
+              Error
+            ~ "<pre style='border-color:red'>" + stderr.join("\n") + "</pre>"
 
-      %p
-        %a{:href => "/command/#{id}", :class => "btn"} View Details »
-  %hr/
+        %p
+          %a{:href => "/command/#{id}", :class => "btn"} View Details »
+    %hr/
