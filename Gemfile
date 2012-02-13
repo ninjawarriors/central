@@ -9,7 +9,8 @@ gem "rack", "1.3.6"             # the base of the base
 gem "sinatra"                   # the base of our web app
 #gem "rack-flash"                # enables flash[:notice] && flash[:error]
 gem "thin"                      # thin server
-gem "chef"
+gem "chef", "0.10.8"
+gem "net-ssh-multi"
 gem "knife-rackspace"
 gem "unicorn"                   # unicorn - testing a different server
 
