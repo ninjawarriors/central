@@ -1,0 +1,8 @@
+%ul.breadcrumb
+  - @crumbs.each do |crumb|
+    %li
+      %a{:href => crumb[:link]}= crumb[:name]
+      %span.divider &gt;
+  - if @active
+    %li.active
+      = @active[:name]
