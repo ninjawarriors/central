@@ -1,0 +1,4 @@
+%h1= @cluster + " Cluster"
+- @nodes.each do |node|
+  .span2.well
+    %a{:href => "/environments/#{@environment}/#{@cluster}/#{node}"}= node

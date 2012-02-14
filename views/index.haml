@@ -1,10 +1,11 @@
-%h1 Cluster Status
-- @keys.each do |key|
-  .span3.well
-    %h2{:href => "/servers/cluster:#{key}"}
-      = key
-      %small
-        = redis.scard "cluster:#{key}"
-        nodes
-    %small
-      %a{:href => "/servers/cluster:#{key}"} Details &gt;&gt;
+%h1
+  Environments
+.row
+  .span10
+    %a.btn{:href => "/environments/create"}
+      %i.icon-plus
+      New
+.row
+- @config["environments"].each do |key|
+  .span2.well
+    %a{:href => "/environments/#{key}"}= key
