@@ -14,16 +14,22 @@
             %a.brand{:href => "/"} Central
             %ul(class="nav")
               %li
-                %a(href="/environments")Environments
-              %li
-                %a(href="/nodes")Nodes
-              %li
-                %a(href="/clusters")Clusters
-              %li
                 %a(href="/command") Commands
               %li
                 %a{:href => "/scheduler"} Scheduler
+            %ul.nav.pull-right
+              %li
+                %a(href="/environments")Environments
+              %li
+                %a(href="/clusters")Clusters
+              %li
+                %a(href="/nodes")Nodes
       .container-fluid
         .row-fluid
-          .span12
+          .span2
+            = partial "sidebar"
+          - if !@crumbs.empty? || !@active.nil?
+            .span10
+              = partial "breadcrumbs"
+          .span10
             =yield

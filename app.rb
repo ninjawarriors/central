@@ -33,27 +33,75 @@ class Central < Sinatra::Base
   def self.redis; $redis; end
   def self.counter; redis.incr "global_counter"; end
 
+  def self.crumb name, link = nil
+    crumb = {}
+    crumb[:name] = name
+    crumb[:link] = link
+    crumb
+  end
+
   def self.scheduler
     @scheduler = Scheduler.instance
   end
   
   get '/' do
-    @keys = redis.smembers("clusters")
+    @environments = redis.smembers("environments")
+    @active = Central.crumb("Dashboard", request.path_info)
     haml :index
   end
   
+  get "/environments" do
+    @keys = redis.smembers("environments")
+    haml :environments
+  end
+  get '/environments/:environment' do |environment|
+    @environment = environment
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb(environment.capitalize + " Environment", request.path_info)
+    @clusters = redis.smembers "environments::#{environment}::clusters"
+    haml :environment
+  end
+  get '/environments/:environment/:cluster' do |environment,cluster|
+    @environment = environment
+    @cluster = cluster
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @crumbs << Central.crumb(environment.capitalize + " Environment", "/environments/#{environment}")
+    @active = Central.crumb(cluster.capitalize + " Cluster", request.path_info)
+    @nodes = redis.smembers "clusters::#{cluster}"
+    haml :cluster
+  end
+  get '/environments/:environment/:cluster/:node' do |environment,cluster,node|
+    @environment = environment
+    @cluster = cluster
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @crumbs << Central.crumb(environment.capitalize + " Environment", "/environments/#{environment}")
+    @crumbs << Central.crumb(cluster.capitalize + " Cluster", "/environments/#{environment}/#{cluster}")
+    @active = Central.crumb(node + " Node", request.path_info)
+    @node = redis.get "nodes::#{node}"
+    haml :node
+  end
+
   get '/clusters' do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb("Clusters", request.path_info)
     @keys = redis.smembers("clusters")
     haml :clusters
+  end
+  get '/clusters/create' do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @crumbs << Central.crumb("Clusters", request.path_info)
+    @active = Central.crumb("Create")
+    @environments = redis.smembers "environments"
+    haml :clusters_create
   end
   
   get "/nodes" do
     haml :nodes
-  end
-
-  get "/environments" do
-    @keys = redis.smembers("environments")
-    haml :environments
   end
 
   get '/servers/*' do
