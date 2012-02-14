@@ -1,5 +1,5 @@
 %h1 Commands
-.span2.well
+.span3.well
   %form{:action => "/command", :method => "post"}
     .input
       %label{:for => "command"} Command
@@ -8,7 +8,7 @@
     .actions
       %input{:name => "run", :type => "submit", :value => "Run", :class => "btn"}/
 
-.span9
+.span12
   - @ids.each do |id|
     - log = @commands[id]
     .row
