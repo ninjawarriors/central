@@ -6,6 +6,9 @@ unless ENV['QUEUE']
   class Central
     get '/scheduler' do
       @schedules = Central.scheduler.all
+      @crumbs = []
+      @crumbs << Central.crumb("Dashboard", "/")
+      @active = Central.crumb("Scheduler", request.path_info)
       haml :scheduler
     end
     post '/scheduler' do

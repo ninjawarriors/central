@@ -142,6 +142,9 @@ class Central < Sinatra::Base
   end
 
   get '/command' do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb("Commands", request.path_info)
     @title = 'Run Command'
     @commands = {}
     @ids = $redis.lrange("logs::command::run", 0, -1).reverse
