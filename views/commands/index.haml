@@ -1,6 +1,6 @@
 %h1 Commands
 .span3.well
-  %form{:action => "/command", :method => "post"}
+  %form{:action => "/commands", :method => "post"}
     .input
       %label{:for => "command"} Command
       %input{:name => "command"}/
@@ -37,5 +37,5 @@
             ~ "<pre style='border-color:red'>" + stderr.join("\n") + "</pre>"
 
         %p
-          %a{:href => "/command/#{id}", :class => "btn"} View Details »
+          %a{:href => "/commands/#{id}", :class => "btn"} View Details »
     %hr/
