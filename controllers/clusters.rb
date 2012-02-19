@@ -21,10 +21,11 @@ class Central
 
   post '/clusters' do
     id = counter
+    @environment = params[:environment]
     @cluster_name = params[:name]
-    redis.sadd "clusters", @cluster_name
+    redis.sadd "environments::#{@environment}::clusters", @cluster_name
     command = "knife client list | grep test"
-    Resque.enqueue(CommandRun, Central.counter, command, {:trackers => ["command::DeployCluster"]})
+    Resque.enqueue(ClusterNameserver, Central.counter, command )
     redirect to('/')
   end
 
