@@ -33,7 +33,7 @@ class Central
     @crumbs << Central.crumb(environment.capitalize + " Environment", "/environments/#{environment}")
     @crumbs << Central.crumb(cluster.capitalize + " Cluster", "/environments/#{environment}/#{cluster}")
     @active = Central.crumb(node + " Node", request.path_info)
-    @node = redis.get "nodes::#{node}"
+    @node = redis.hgetall "nodes::#{node}"
     haml :node
   end
 
