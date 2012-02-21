@@ -23,8 +23,10 @@ class Central
     id = counter
     @cluster_name = params[:name]
     redis.sadd "clusters", @cluster_name
-    command = "knife client list | grep test"
-    Resque.enqueue(CommandRun, Central.counter, command, {:trackers => ["command::DeployCluster"]})
+    #command = "knife client list | grep test"
+    command = "whoami"
+    #Resque.enqueue(ClusterCreate, Central.counter, command, {:trackers => ["command::DeployCluster"]})
+    Cluster.new.create
     redirect to('/')
   end
 
