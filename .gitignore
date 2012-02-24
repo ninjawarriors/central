@@ -4,3 +4,8 @@ Gemfile.lock
 dump.rdb
 public/.sass-cache
 tmp/*
+
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
