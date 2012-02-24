@@ -28,7 +28,7 @@ group :production do
 end
 
 group :development do
-  gem "foreman"                 # To support Procfile during development
+  gem "foreman", "0.36.1"                 # To support Procfile during development
   gem "rake"
   gem 'compass'
 end
