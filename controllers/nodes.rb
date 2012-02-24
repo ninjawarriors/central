@@ -33,7 +33,7 @@ class Central
     haml :servers
   end
 
-  get '/node/*' do
+  get '/nodes/*' do
     @keys = params[:splat].first.split('/')
     @node = case redis.type(@keys)
     when "string"
