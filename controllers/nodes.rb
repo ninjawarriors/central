@@ -4,6 +4,14 @@ class Central
     haml :nodes
   end
 
+  get "/nodes/create" do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @crumbs << Central.crumb("Nodes", request.path_info)
+    @active = Central.crumb("Create")
+    haml :nodes
+  end
+
   # TODO: Why not nodes?
   get '/servers/*' do
     @keys = params[:splat].first.split('/')
@@ -25,7 +33,7 @@ class Central
     haml :servers
   end
 
-  get '/nodes/*' do
+  get '/node/*' do
     @keys = params[:splat].first.split('/')
     @node = case redis.type(@keys)
     when "string"
