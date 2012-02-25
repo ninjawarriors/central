@@ -11,7 +11,7 @@ class Central
     end
 
     def deploy
-      Central.redis.sadd "clusters", "#{@environment}-#{@name}"
+      Central.redis.sadd "environments::#{@environment}::clusters", "#{@name}"
       Central.debug "Deploying cluster #{@environment}-#{@name} with #{@servers.size} servers"
             
       @servers.map do |server| 
