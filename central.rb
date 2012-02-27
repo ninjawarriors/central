@@ -32,6 +32,12 @@ class Central < Sinatra::Base
 
   def self.redis; $redis; end
   def self.counter; redis.incr "global_counter"; end
+  def self.hooks; @hooks = Hooks.instance; end
+  def self.scheduler; @scheduler = Scheduler.instance; end
+
+  def self.register_hook action, mod
+    hooks.add action, mod
+  end
 
   def self.crumb name, link = nil
     crumb = {}
@@ -40,13 +46,14 @@ class Central < Sinatra::Base
     crumb
   end
 
-  def self.scheduler
-    @scheduler = Scheduler.instance
-  end
-
   get '/' do
     @environments = redis.smembers("environments")
     @active = Central.crumb("Dashboard", request.path_info)
+
+    @notifications = []
+    Central.hooks[:dashboard_notification].each do |hook|
+      @notifications << hook.dashboard_notification
+    end
     haml :index
   end
 
@@ -59,3 +66,4 @@ end
 require './lib/scheduler'
 
 require './lib/libraries'
+require './lib/plugins'

@@ -1,5 +1,8 @@
 %h1
   Environments
+- unless @notifications.empty?
+  .alert
+    = @notifications.join("<br />")
 .row
   .span10
     %a.btn{:href => "/environments/create"}

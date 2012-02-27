@@ -7,3 +7,4 @@ end
 Dir.glob('./lib/**/*.rb') do |file|
   require file.gsub(/\.rb/, '') unless file.include?('middleware')
 end
+

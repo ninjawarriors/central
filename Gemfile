@@ -32,3 +32,7 @@ group :development do
   gem "rake"
   gem 'compass'
 end
+
+group :noload do
+  gem "central-plugin-skeleton"
+end
