@@ -1,0 +1,8 @@
+%h1 Create a New Environment
+%form.well{:action => "/environments", :method => "post"}
+  .input
+    %label{:for => "name"}
+      Environment Name
+    %input{:type => "text", :name => "name"}/
+  .actions
+    %input{:type => "submit", :value => "Create", :class => "btn"}/
