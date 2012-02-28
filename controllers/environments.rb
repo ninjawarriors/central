@@ -46,7 +46,7 @@ class Central
     id = counter
     @env_name = params[:name]
     redis.sadd "environments", id
-    redis.set "environments::#{id}", "{name: #{@env_name}}"
+    redis.set "environments::#{id}", {"name" => @env_name}.to_json
     redirect to('/')
   end
 
