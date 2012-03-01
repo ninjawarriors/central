@@ -1,4 +1,4 @@
-%h1= @environment.capitalize + " Environment"
+%h1= @env_name + " Environment"
 - @clusters.each do |cluster|
   .span1.well
     %a{:href => "/environments/#{@environment}/#{cluster}"}= cluster

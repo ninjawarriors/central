@@ -1,7 +1,7 @@
 class Central
 
   get "/environments" do
-    @keys = redis.smembers("environments")
+    @environments = redis.smembers("environments")
     haml :environments
   end
 
@@ -12,6 +12,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb(environment.capitalize + " Environment", request.path_info)
     @clusters = redis.smembers "environments::#{environment}::clusters"
+    @env_name = JSON.parse(redis.get("environments::#{environment}"))["name"]
     haml :environment
   end
 
@@ -21,12 +22,13 @@ class Central
 
   get '/environments/:environment/:cluster' do |environment,cluster|
     @environment = environment
-    @cluster = cluster
+    @cluster_id = cluster
+    @cluster_name = JSON.parse(redis.get("clusters::#{cluster}"))["name"]
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb(environment.capitalize + " Environment", "/environments/#{environment}")
     @active = Central.crumb(cluster.capitalize + " Cluster", request.path_info)
-    @nodes = redis.smembers "clusters::#{cluster}"
+    @nodes = redis.smembers "clusters::#{@cluster_id}::nodes"
     haml :cluster
   end
 
