@@ -6,6 +6,6 @@
       %i.icon-plus
       New
 .row
-- @config["environments"].each do |key|
+- @environments.each do |key|
   .span2.well
     %a{:href => "/environments/#{key}"}= key
