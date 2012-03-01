@@ -12,6 +12,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb(environment.capitalize + " Environment", request.path_info)
     @clusters = redis.smembers "environments::#{environment}::clusters"
+    @env_name = JSON.parse(redis.get("environments::#{environment}"))["name"]
     haml :environment
   end
 
