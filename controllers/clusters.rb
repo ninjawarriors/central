@@ -20,8 +20,11 @@ class Central
   end
 
   post '/clusters' do
+    id = counter
     env = params[:environment]
     cluster_name = params[:name]
+    redis.sadd "environments::#{env}::clusters", id
+    redis.set "clusters::#{id}", {"name" => "#{cluster_name}", "environment" => "#{env}"}
     Central::Cluster.new(cluster_name, env).deploy
     redirect to('/')
   end
