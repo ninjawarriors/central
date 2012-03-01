@@ -24,7 +24,7 @@ class Central
     env = params[:environment]
     cluster_name = params[:name]
     redis.sadd "environments::#{env}::clusters", id
-    redis.set "clusters::#{id}", {"name" => "#{cluster_name}", "environment" => "#{env}"}
+    redis.set "clusters::#{id}", {"name" => "#{cluster_name}", "environment" => "#{env}"}.to_json
     Central::Cluster.new(cluster_name, env).deploy
     redirect to('/')
   end
