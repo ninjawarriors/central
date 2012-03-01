@@ -22,12 +22,13 @@ class Central
 
   get '/environments/:environment/:cluster' do |environment,cluster|
     @environment = environment
-    @cluster = cluster
+    @cluster_id = cluster
+    @cluster_name = JSON.parse(redis.get("clusters::#{cluster}"))["name"]
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb(environment.capitalize + " Environment", "/environments/#{environment}")
     @active = Central.crumb(cluster.capitalize + " Cluster", request.path_info)
-    @nodes = JSON.parse(redis.get("clusters::#{cluster}"))["name"]
+    @nodes = redis.smembers "environments::#{@cluster_id}"
     haml :cluster
   end
 
