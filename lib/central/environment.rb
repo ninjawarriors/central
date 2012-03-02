@@ -1,36 +1,36 @@
 class Central
   class Environment
-    attr_accessor :id, :name, :clusters
+    attr_accessor :id, :props, :clusters
 
     def initialize(id)
       @id = id
+      @props = Central.redis.hgetall "environments::#{@id}" || {}
+      @clusters = Central.redis.smembers "environments::#{@id}::clusters" || []
     end
 
-    def save(args={})
+    def save(props={})
+      props_v = props.reject {|k,v| [:name].include? k} ## quick validation to remove extra POSTed elements
       Central.redis.sadd "environments", @id
-      Central.redis.set "environments::#{@id}", {"name" => args[:name]}.to_json
+      Central.redis.hmset "environments::#{@id}", "name", props_v[:name]
     end
 
-    def clusters
-        @clusters = redis.smembers "environments::#{@id}::clusters" || []
+    def add_cluster(c_id)
+      Central.redis.sadd "environments::#{@id}::clusters", c_id
+      @clusters << c_id
     end
 
-    def clusters=(*clusters_id)
-        clusters_id.each do |c_id|
-          redis.sadd "environments::#{@id}::clusters", c_id
-        end
-        get_clusters
+    def delete_cluster(c_id)
+      Central.redis.srem "environments::#{@id}::clusters", c_id
+      @clusters.delete(c_id)
     end
 
     ## class methods
-    def self.load(id)
-      e = Environment.new(id)
-      o = JSON.parse(Central.redis.get "environments::#{id}")
-      e.name = o["name"]
-    end
-
     def self.list
-      Central.redis.smembers "environments"
+      envs = {}
+      Central.redis.smembers("environments").each do |id|
+        envs[id] = Environment.new(id)
+      end
+      envs
     end
 
   end
