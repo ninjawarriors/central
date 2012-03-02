@@ -6,6 +6,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Clusters", request.path_info)
+
     @keys = redis.smembers("clusters")
     haml :clusters
   end

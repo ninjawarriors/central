@@ -1,12 +1,23 @@
 class Central
 
   get "/environments" do
-    @environments = redis.smembers("environments")
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb("Environments", request.path_info)
+    @environments = Environment.list
     haml :environments
+  end
+
+  get '/environments/create' do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb(" Environment", request.path_info)
+    haml :environment_create
   end
 
   get '/environments/:environment' do |environment|
     pass unless environment != 'create'
+    e = Environment.load
     @environment = environment
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
@@ -15,11 +26,7 @@ class Central
     @env_name = JSON.parse(redis.get("environments::#{environment}"))["name"]
     haml :environment
   end
-
-  get '/environments/create' do
-    haml :environment_create
-  end
-
+  
   get '/environments/:environment/:cluster' do |environment,cluster|
     @environment = environment
     @cluster_id = cluster
@@ -45,10 +52,8 @@ class Central
   end
 
   post '/environments' do
-    id = counter
-    @env_name = params[:name]
-    redis.sadd "environments", id
-    redis.set "environments::#{id}", {"name" => @env_name}.to_json
+    id = counter ## this can lead to confusion
+    Environment.new(id).save({"name" => params[:name]})
     redirect to('/')
   end
 

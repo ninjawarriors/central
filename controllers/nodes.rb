@@ -9,6 +9,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Nodes", request.path_info)
     @active = Central.crumb("Create")
+    @clusters = ["a", "b"]
     haml :nodes
   end
 
