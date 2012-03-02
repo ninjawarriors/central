@@ -1,4 +1,4 @@
 %h1 Environments
-- @environments.each do |key|
+- @environments.each do |id|
   .alert.alert-success
-    %a{:href => "/servers/cluster:#{key}"}= key
+    %a{:href => "/environments/#{id}"}= id

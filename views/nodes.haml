@@ -1,12 +1,12 @@
-%h1 Create a New Node
+%h1 Create a new node
 %form.well{ :action => "/servers", :method => "post"}
   %label{:for => "name"}
     Node Name
   %input{:type => "text", :size => "30", :name => "name"}/
   %label{:for => "cluster_membership"}
-    Which Cluster does this node belong to
+    Which cluster does this node belong to
   .input
   %select{:name => "cluster_membership"}
-    - @config["environments"].each do |v|
+    - @clusters.each do |v|
       %option{:value => v}= v
   %input{:type => "submit", :value => "Create", :class => "btn"}/
