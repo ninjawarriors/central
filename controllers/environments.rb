@@ -26,7 +26,7 @@ class Central
     @env_name = JSON.parse(redis.get("environments::#{environment}"))["name"]
     haml :environment
   end
-  
+
   get '/environments/:environment/:cluster' do |environment,cluster|
     @environment = environment
     @cluster_id = cluster
@@ -53,7 +53,7 @@ class Central
 
   post '/environments' do
     id = counter ## this can lead to confusion
-    Environment.new(id).save({"name" => params[:name]})
+    Environment.new(id).save(params)
     redirect to('/')
   end
 

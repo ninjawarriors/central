@@ -6,8 +6,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Clusters", request.path_info)
-
-    @keys = redis.smembers("clusters")
+    @clusters = Cluster.list
     haml :clusters
   end
 
@@ -16,17 +15,14 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Clusters", request.path_info)
     @active = Central.crumb("Create")
-    @environments = redis.smembers "environments"
+    @environments = Environment.list
     haml :clusters_create
   end
 
   post '/clusters' do
     id = counter
-    env = params[:environment]
-    cluster_name = params[:name]
-    redis.sadd "environments::#{env}::clusters", id
-    redis.set "clusters::#{id}", {"name" => "#{cluster_name}", "environment" => "#{env}"}.to_json
-    Central::Cluster.new(cluster_name, env).deploy
+    c = Cluster.new(id).save(params)
+    Environment.new(params[:environment]).add_cluster(c.id)
     redirect to('/')
   end
 

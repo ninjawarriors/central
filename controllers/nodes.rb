@@ -1,6 +1,7 @@
 class Central
 
   get "/nodes" do
+    @nodes = Node.list
     haml :nodes
   end
 
@@ -9,8 +10,8 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Nodes", request.path_info)
     @active = Central.crumb("Create")
-    @clusters = ["a", "b"]
-    haml :nodes
+    @clusters = Cluster.list
+    haml :node_create
   end
 
   # TODO: Why not nodes?
@@ -51,27 +52,11 @@ class Central
     haml :node
   end
 
-  # TODO: Why not nodes?
-  post '/servers' do
+  post '/nodes' do
     id = counter
-    @server_name = params[:name]
-    @cluster_name = params[:cluster_membership]
-    redis.sadd "cluster:#{@cluster_name}", @server_name
-    redis.hmset @server_name, "hostname", @server_name, "cluster", @cluster_name
-    if @cluster_name == "Ops"
-      @env = "ops"
-    elsif @cluster_name == "Dev"
-      @env = "dev"
-    elsif @cluster_name == "QA"
-      @env = "qa"
-    elsif @cluster_name == "Staging"
-      @env = "staging"
-    elsif @cluster_name == "Beta"
-      @env = "beta"
-    elsif @cluster_name == "Prod"
-      @env = "prod"
-    end
-    Resque.enqueue(ServerCreate, params[:name], @env)
+    n = Node.new(id).save(params)
+    Cluster.new(params[:cluster]).add_node(n.id)
+    #Resque.enqueue(ServerCreate, params[:name], @env)
     redirect to('/')
   end
 
