@@ -4,8 +4,8 @@
     %label{:for => "environment"}
       Environment
     %select{:name => "environment"}
-      - @environments.each do |v|
-        %option{:value => v}= v
+      - @environments.each_pair do |e_id, e|
+        %option{:value => e_id}= e.props["name"]
   .input
     %label{:for => "name"}
       Cluster Name

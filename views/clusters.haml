@@ -1,4 +1,4 @@
 %h1= @cluster + " Cluster"
-- @nodes.each do |node|
+- @clusters.each_pair do |id, c| p c.id
   .span2.well
-    %a{:href => "/environments/#{@environment}/#{@cluster}/#{node}"}= node
+    %a{:href => "/environments/#{c.props["environment"]}/clusters/#{id}"}= c.props["name"]

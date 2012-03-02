@@ -1,4 +1,4 @@
 %h1 Environments
-- @environments.each do |id|
+- @environments.each_pair do |e_id, e|
   .alert.alert-success
-    %a{:href => "/environments/#{id}"}= id
+    %a{:href => "/environments/#{e_id}"}= e.props["name"]

@@ -1,12 +1,4 @@
-%h1 Create a new node
-%form.well{ :action => "/servers", :method => "post"}
-  %label{:for => "name"}
-    Node Name
-  %input{:type => "text", :size => "30", :name => "name"}/
-  %label{:for => "cluster_membership"}
-    Which cluster does this node belong to
-  .input
-  %select{:name => "cluster_membership"}
-    - @clusters.each do |v|
-      %option{:value => v}= v
-  %input{:type => "submit", :value => "Create", :class => "btn"}/
+%h1= "Nodes"
+- @nodes.each_pair do |id, node|
+  .span2.well
+    %a{:href => "/environments/ID/clusters/ID/nodes/ID"}= node.props["name"]

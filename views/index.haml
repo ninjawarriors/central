@@ -9,6 +9,6 @@
       %i.icon-plus
       New
 .row
-- @environments.each do |key|
+- @environments.each_pair do |id, env|
   .span2.well
-    %a{:href => "/environments/#{key}"}= key
+    %a{:href => "/environments/#{id}"}= env.props["name"]
