@@ -47,7 +47,7 @@ class Central < Sinatra::Base
   end
 
   get '/' do
-    @environments = redis.smembers("environments")
+    @environments = Environment.list_all
     @active = Central.crumb("Dashboard", request.path_info)
 
     @notifications = []
