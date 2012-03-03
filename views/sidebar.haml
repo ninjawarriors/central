@@ -1,9 +1,21 @@
 .well{:style => "padding: 8px 0;"}
   %ul.nav.nav-list
-    %li.nav-header Create
+    %li.nav-header Environments
     %li
-      %a{:href => "/environments/create"} Environment
+      %a{:href => "/environments/create"} Create
     %li
-      %a{:href => "/clusters/create"} Cluster
+      %a{:href => "/environments"} List
+
+  %ul.nav.nav-list
+    %li.nav-header Clusters
     %li
-      %a{:href => "/nodes/create"} Node
+      %a{:href => "/clusters/create"} Create
+    %li
+      %a{:href => "/clusters"} List
+
+  %ul.nav.nav-list
+    %li.nav-header Nodes
+    %li
+      %a{:href => "/nodes/create"} Create
+    %li
+      %a{:href => "/nodes"} List
