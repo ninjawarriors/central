@@ -6,7 +6,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Clusters", request.path_info)
-    @clusters = Cluster.list
+    @clusters = Cluster.list_all
     haml :clusters
   end
 
@@ -15,14 +15,14 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Clusters", request.path_info)
     @active = Central.crumb("Create")
-    @environments = Environment.list
-    haml :clusters_create
+    @environments = Environment.list_all
+    haml :cluster_create
   end
 
   post '/clusters' do
     id = counter
     c = Cluster.new(id).save(params)
-    Environment.new(params[:environment]).add_cluster(c.id)
+    Environment.new(params["environment"]).add_cluster(c.id)
     redirect to('/')
   end
 

@@ -4,7 +4,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Environments", request.path_info)
-    @environments = Environment.list
+    @environments = Environment.list_all
     haml :environments
   end
 
@@ -15,15 +15,13 @@ class Central
     haml :environment_create
   end
 
-  get '/environments/:environment' do |environment|
-    pass unless environment != 'create'
-    e = Environment.load
-    @environment = environment
+  get '/environments/:id' do |id|
+    @environment = Environment.new(id)
+
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
-    @active = Central.crumb(environment.capitalize + " Environment", request.path_info)
-    @clusters = redis.smembers "environments::#{environment}::clusters"
-    @env_name = JSON.parse(redis.get("environments::#{environment}"))["name"]
+    @active = Central.crumb(@environment.props["name"].capitalize + " Environment", request.path_info)
+
     haml :environment
   end
 

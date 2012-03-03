@@ -1,7 +1,7 @@
 class Central
 
   get "/nodes" do
-    @nodes = Node.list
+    @nodes = Node.list_all
     haml :nodes
   end
 
@@ -10,7 +10,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Nodes", request.path_info)
     @active = Central.crumb("Create")
-    @clusters = Cluster.list
+    @clusters = Cluster.list_all
     haml :node_create
   end
 
@@ -55,7 +55,7 @@ class Central
   post '/nodes' do
     id = counter
     n = Node.new(id).save(params)
-    Cluster.new(params[:cluster]).add_node(n.id)
+    Cluster.new(params["cluster"]).add_node(n.id)
     #Resque.enqueue(ServerCreate, params[:name], @env)
     redirect to('/')
   end
