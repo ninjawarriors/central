@@ -1,0 +1,14 @@
+%h1 Create a New Cluster
+%form.well{:action => "/clusters", :method => "post"}
+  .input
+    %label{:for => "environment"}
+      Environment
+    %select{:name => "environment"}
+      - @environments.each do |e|
+        %option{:value => e.id}= e.props["name"]
+  .input
+    %label{:for => "name"}
+      Cluster Name
+    %input{:type => "text", :name => "name"}/
+  .actions
+    %input{:type => "submit", :value => "Create", :class => "btn"}/

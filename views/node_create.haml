@@ -7,6 +7,6 @@
     Which cluster does this node belong to
   .input
   %select{:name => "cluster"}
-    - @clusters.each do |id, c|
-      %option{:value => id}= "#{c.props["name"]}"
+    - @clusters.each do |c|
+      %option{:value => c.id}= "#{c.props["name"]}"
   %input{:type => "submit", :value => "Create", :class => "btn"}/

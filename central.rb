@@ -47,7 +47,7 @@ class Central < Sinatra::Base
   end
 
   get '/' do
-    @environments = Environment.list
+    @environments = Environment.list_all
     @active = Central.crumb("Dashboard", request.path_info)
 
     @notifications = []
