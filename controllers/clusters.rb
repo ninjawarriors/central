@@ -1,5 +1,7 @@
 # TODO: Do we still need this?
 # TODO: Env, Cl, and Nodes are all intertwined, need to come up with a better organizaiton
+
+## need to factorize code for crumbs
 class Central
 
   get '/clusters' do
@@ -23,7 +25,7 @@ class Central
     id = counter
     c = Cluster.new(id).save(params)
     Environment.new(params["environment"]).add_cluster(c.id)
-    redirect to('/')
+    redirect to('/clusters')
   end
 
 end

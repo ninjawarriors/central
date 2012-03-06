@@ -52,7 +52,7 @@ class Central
   post '/environments' do
     id = counter ## this can lead to confusion
     Environment.new(id).save(params)
-    redirect to('/')
+    redirect to('/environments')
   end
 
 end

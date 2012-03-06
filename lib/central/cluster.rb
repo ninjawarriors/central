@@ -4,6 +4,7 @@ class Central
 
     def initialize(id)
       @id = id
+      @object = "cluster"
       @props = Central.redis.hgetall "clusters::#{@id}" || {}
       @nodes = load_nodes
       self
@@ -26,7 +27,7 @@ class Central
       Central.redis.srem "clusters::#{@id}::nodes", n_id
       load_nodes
     end
-
+    
     ## class methods
     def self.list_all
       clusters = []

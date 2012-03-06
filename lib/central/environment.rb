@@ -4,6 +4,7 @@ class Central
 
     def initialize(id)
       @id = id
+      @object = "environment"
       @props = Central.redis.hgetall "environments::#{@id}" || {}
       @clusters = load_clusters
       self
