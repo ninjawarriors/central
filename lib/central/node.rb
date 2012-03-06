@@ -4,17 +4,19 @@ class Central
 
     def initialize(id)
       @id = id
+      @object = "node"
       @props = Central.redis.hgetall "nodes::#{@id}" || {}
       self
     end
 
     ## add validation here, because each POST prop will be saved otherwise
     def save(props={})
-      props_v = props.reject {|k,v| not ["name", "cluster", "command"].include? k} ## quick validation to remove extra POSTed elements
+      props_v = props.reject {|k,v| not ["name", "cluster", "command_id"].include? k} ## quick validation to remove extra POSTed elements
       Central.redis.sadd "nodes", @id
       Central.redis.hmset "nodes::#{@id}", "name", props_v[:name], "cluster", props_v[:cluster]
-      self
+      Resque.enqueue(Deploy, @object, @id, props_v[:command_id])
     end
+
 
     ## class methods
     def self.list_all

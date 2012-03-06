@@ -9,4 +9,10 @@
   %select{:name => "cluster"}
     - @clusters.each do |c|
       %option{:value => c.id}= "#{c.props["name"]}"
+  .input
+    Recipe
+  %select{:name => "command_id"}
+    - @commands.each do |c|
+      %option{:value => c.id}= "#{c.props["name"]}"
+      
   %input{:type => "submit", :value => "Create", :class => "btn"}/
