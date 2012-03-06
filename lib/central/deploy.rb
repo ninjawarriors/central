@@ -10,7 +10,7 @@ class Central
       stderr = RedisTailer.new id, "stderr"
 
       begin
-        status = spawn , 'stdout' => stdout, 'stderr' => stderr
+        status = spawn command.props["command"], 'stdout' => stdout, 'stderr' => stderr
       rescue => e
         error = e
         puts e
