@@ -1,0 +1,11 @@
+%h1= "Create command"
+.span3.well
+  %form{:action => "/commands", :method => "post"}
+    .input
+      %label{:for => "name"} Name
+      %input{:name => "name"}/
+    .input
+      %label{:for => "command"} Command
+      %input{:name => "command"}/
+    .actions
+      %input{:name => "Create", :type => "submit", :value => "Create", :class => "btn"}/
