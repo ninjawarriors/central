@@ -1,33 +1,36 @@
 class Central
   class Cluster
-    attr_reader :id, :props, :nodes
+    attr_reader :id, :props, :nodes, :env, :key
 
     def initialize(id)
       @id = id
-      @object = "cluster"
+      @key = "clusters"
       @props = Central.redis.hgetall "clusters::#{@id}" || {}
-      @nodes = load_nodes
-      self
     end
 
-    ## add validation here, because each POST prop will be saved otherwise
     def save(props={})
-      props_v = props.reject {|k,v| not ["name", "environment", "command"].include? k} ## quick validation to remove extra POSTed elements
+      props_v = props.reject {|k,v| not ["name", "environment_id", "command_id"].include? k}
+
       Central.redis.sadd "clusters", @id
-      Central.redis.hmset "clusters::#{@id}", "name", props_v[:name], "environment", props_v[:environment]
-      self
+      Central.redis.hmset "clusters::#{@id}", "name", props_v[:name], "environment_id", props_v[:environment_id]
     end
 
     def add_node(n_id)
       Central.redis.sadd "clusters::#{@id}::nodes", n_id
-      load_nodes
     end
         
     def delete_node(n_id)
       Central.redis.srem "clusters::#{@id}::nodes", n_id
-      load_nodes
     end
     
+    def nodes
+      @nodes ||= Node.list( Central.redis.smembers("clusters::#{@id}::nodes"))
+    end
+
+    def env
+      @env ||= Environment.new(@props["environment_id"])
+    end
+
     ## class methods
     def self.list_all
       clusters = []
@@ -54,10 +57,5 @@ class Central
       nodes
     end
 
-    private 
-    def load_nodes
-      puts "loading nodes for #{@props["name"]}"
-      Node.list( Central.redis.smembers("clusters::#{@id}::nodes") ) || []
-    end
   end
 end
