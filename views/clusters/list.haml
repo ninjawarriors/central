@@ -1,0 +1,5 @@
+%h1 Clusters
+%ul
+  - @clusters.each do |c|
+    %li
+      %a{:href => "/clusters/#{c.id}"}=  "#{c.env.props["name"]}:#{c.props["name"]}"

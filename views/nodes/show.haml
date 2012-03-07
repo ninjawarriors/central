@@ -1,0 +1,5 @@
+%h1= "#{@node.cluster.env.props["name"]}:#{@node.cluster.props["name"]}:#{@node.props["name"]}"
+- @node.commands.each do |c|
+  %p= "Started: #{Time.at(c["timestamp_start"])}, completed: #{Time.at(c["timestamp_complete"])}"
+  %p= "Exit status #{c["exit_status"]}"
+  %pre= c["stdout"].join("\n")
