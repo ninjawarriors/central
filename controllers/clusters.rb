@@ -1,30 +1,43 @@
-# TODO: Do we still need this?
-# TODO: Env, Cl, and Nodes are all intertwined, need to come up with a better organizaiton
-
-## need to factorize code for crumbs
 class Central
 
   get '/clusters' do
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
-    @active = Central.crumb("Clusters", request.path_info)
+    @active = Central.crumb("Clusters", "/clusters")
+
     @clusters = Cluster.list_all
-    haml :clusters
+    haml "clusters/list"
   end
 
   get '/clusters/create' do
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
-    @crumbs << Central.crumb("Clusters", request.path_info)
+    @crumbs << Central.crumb("Clusters", "/clusters")
     @active = Central.crumb("Create")
+
     @environments = Environment.list_all
-    haml :cluster_create
+    haml "clusters/create"
+  end
+
+get '/clusters/:cluster' do |c_id|
+    @cluster = Cluster.new(c_id)
+    
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @crumbs << Central.crumb("Clusters", "/clusters")
+    @active = Central.crumb(@cluster.props["name"], request.path_info)
+    haml "clusters/show"
   end
 
   post '/clusters' do
     id = counter
-    c = Cluster.new(id).save(params)
-    Environment.new(params["environment"]).add_cluster(c.id)
+
+    c = Cluster.new(id)
+    c.save(params)
+
+    e = Environment.new(params["environment"])
+    e.add_cluster(c.id)
+
     redirect to('/clusters')
   end
 

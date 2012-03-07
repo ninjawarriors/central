@@ -3,27 +3,27 @@ class Central
   get '/commands' do
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
-    @active = Central.crumb("Commands", request.path_info)
+    @active = Central.crumb("Commands", "/commands")
     @commands = Command.list_all
-    haml 'commands'
+    haml 'commands/list'
+  end
+
+  get '/commands/create' do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb("Commands", "commands")
+    haml 'commands/create'
+  end
+  
+  get '/commands/:id' do
+    @command = Command.new(params[:id])
+    haml 'commands/show'
   end
 
   post '/commands' do
     id = counter
     Command.new(id).save(params)
     redirect to('/commands')
-  end
-
-  get '/commands/create' do
-    @crumbs = []
-    @crumbs << Central.crumb("Dashboard", "/")
-    @active = Central.crumb("Commands", request.path_info)
-    haml 'command_create'
-  end
-  
-  get '/commands/:id' do
-    @command = Command.new(params[:id])
-    haml 'command'
   end
 
   # TODO: tidy this up and make it actually work
