@@ -36,7 +36,7 @@ class Central < Sinatra::Base
   def self.scheduler; @scheduler = Scheduler.instance; end
 
   def self.register_hook action, mod
-    hooks.add action, mod
+    hooks.register action, mod
   end
 
   def self.crumb name, link = nil
@@ -66,4 +66,4 @@ end
 require './lib/scheduler'
 
 require './lib/libraries'
-require './lib/plugins'
+require './lib/hooks'

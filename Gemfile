@@ -33,6 +33,11 @@ group :development do
   gem 'compass'
 end
 
+# Include the base plugins
+group :core do
+  gem 'central-core'
+end
+
 group :noload do
-  gem "central-plugin-skeleton"
+  gem "central-hook-skeleton"
 end
