@@ -3,29 +3,29 @@ class Central
   get '/commands' do
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
-    @active = Central.crumb("Commands", request.path_info)
-    @title = 'Run Command'
-    @commands = {}
-    # TODO: Rename this too
-    @ids = $redis.lrange("logs::command::run", 0, -1).reverse
-    @ids.each do |id|
-      @commands[id] = JSON.parse $redis.get "logs::#{id}"
-    end
-    haml 'commands/index'
+    @active = Central.crumb("Commands", "/commands")
+    @commands = Command.list_all
+    haml 'commands/list'
+  end
+
+  get '/commands/create' do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb("Commands", "commands")
+    haml 'commands/create'
+  end
+  
+  get '/commands/:id' do |cd_id|
+    pass if cd_id == "create"
+
+    @command = Command.new(cd_id)
+    haml 'commands/show'
   end
 
   post '/commands' do
-    Central.scheduler.add_schedule params
+    id = counter
+    Command.new(id).save(params)
     redirect to('/commands')
-  end
-
-  get '/commands/:id' do
-    @id = params[:id]
-    @details = JSON.parse $redis.get "logs::#{@id}"
-    @logs = {}
-    @logs[:stdout] = $redis.lrange "logs::#{@id}::stdout", 0, -1
-    @logs[:stderr] = $redis.lrange "logs::#{@id}::stderr", 0, -1
-    haml 'commands/details'
   end
 
   # TODO: tidy this up and make it actually work

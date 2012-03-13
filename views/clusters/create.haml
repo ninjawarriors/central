@@ -3,7 +3,7 @@
   .input
     %label{:for => "environment"}
       Environment
-    %select{:name => "environment"}
+    %select{:name => "environment_id"}
       - @environments.each do |e|
         %option{:value => e.id}= e.props["name"]
   .input

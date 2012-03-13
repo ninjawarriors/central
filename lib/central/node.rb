@@ -1,21 +1,27 @@
 class Central
   class Node
-    attr_reader :id, :props
+    attr_reader :id, :props, :cluster, :key, :commands
 
     def initialize(id)
       @id = id
+      @key = "nodes"
       @props = Central.redis.hgetall "nodes::#{@id}" || {}
-      self
     end
 
-    ## add validation here, because each POST prop will be saved otherwise
     def save(props={})
-      props_v = props.reject {|k,v| not ["name", "cluster", "command"].include? k} ## quick validation to remove extra POSTed elements
+      props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id"].include? k}
+
       Central.redis.sadd "nodes", @id
-      Central.redis.hmset "nodes::#{@id}", "name", props_v[:name], "cluster", props_v[:cluster]
-      self
+      Central.redis.hmset "nodes::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id], "command_id", props_v[:command_id]
+      Central.redis.set "nodes::#{props_v[:name]}", @id
+
+      Resque.enqueue(Deploy, @key, @id, props_v[:command_id])
     end
 
+    def cluster
+      @cluster ||= Cluster.new(@props["cluster_id"])
+    end
+    
     ## class methods
     def self.list_all
       nodes = []
@@ -32,5 +38,6 @@ class Central
       end
       nodes
     end
+
   end
 end

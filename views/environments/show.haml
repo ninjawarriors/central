@@ -1,0 +1,6 @@
+%h1= @environment.props["name"] + " environment"
+%span= @environment.clusters.size.to_s + " cluster(s)"
+%ul
+  - @environment.clusters.each do |cluster|
+    %li
+      %a{:href => "/clusters/#{cluster.id}"}= cluster.props["name"]
