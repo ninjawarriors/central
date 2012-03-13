@@ -1,32 +1,33 @@
 class Central
   class Environment
-    attr_reader :id, :props, :clusters
+    attr_reader :id, :props, :clusters, :key
 
     def initialize(id)
       @id = id
+      @key = "environments"
       @props = Central.redis.hgetall "environments::#{@id}" || {}
-      @clusters = load_clusters
-      self
     end
 
     def save(props={})
-      props_v = props.reject {|k,v| not ["name"].include? k} ## quick validation to remove extra POSTed elements
+      props_v = props.reject {|k,v| not ["name"].include? k} 
+
       Central.redis.sadd "environments", @id
       Central.redis.hmset "environments::#{@id}", "name", props_v[:name]
-      self
     end
 
     def add_cluster(c_id)
       Central.redis.sadd "environments::#{@id}::clusters", c_id
-      load_clusters
     end
 
 
     def delete_cluster(c_id)
       Central.redis.srem "environments::#{@id}::clusters", c_id
-      load_clusters
     end
 
+    def clusters
+      @clusters ||= Cluster.list(Central.redis.smembers("environments::#{@id}::clusters"))
+    end
+    
     ## class methods
     def self.list_all
       envs = []
@@ -36,10 +37,5 @@ class Central
       envs
     end
 
-    private
-    def load_clusters
-      puts "loading clusters for #{@props["name"]}"
-      Cluster.list( Central.redis.smembers("environments::#{@id}::clusters") ) || []
-    end
   end
 end

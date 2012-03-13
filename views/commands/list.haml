@@ -1,0 +1,6 @@
+%h1 Commands
+%ul
+  - @commands.each do |command|
+    %li
+      %a{:href => "/commands/#{command.id}"}= command.props["name"]
+      %code= command.props["command"]

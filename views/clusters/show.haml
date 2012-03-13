@@ -1,0 +1,6 @@
+%h1= @cluster.props["name"] + " cluster"
+%span= @cluster.nodes.size.to_s + " nodes(s)"
+%ul
+  - @cluster.nodes.each do |node|
+    %li
+      %a{:href => "/nodes/#{node.id}"}= node.props["name"]

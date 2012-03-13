@@ -1,63 +1,50 @@
 class Central
 
   get "/nodes" do
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @active = Central.crumb("Nodes", "/nodes")
+
     @nodes = Node.list_all
-    haml :nodes
+    
+    haml "nodes/list"
   end
 
   get "/nodes/create" do
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
-    @crumbs << Central.crumb("Nodes", request.path_info)
+    @crumbs << Central.crumb("Nodes", "/nodes")
     @active = Central.crumb("Create")
+
     @clusters = Cluster.list_all
-    haml :node_create
+    @commands = Command.list_all
+
+    haml "nodes/create"
   end
 
-  # TODO: Why not nodes?
-  get '/servers/*' do
-    @keys = params[:splat].first.split('/')
-    @servers = case redis.type(@keys)
-    when "string"
-      Array(redis[@keys])
-    when "list"
-      redis.lrange(@keys, 0, -1)
-    when "set"
-      redis.smembers(@keys)
-    else
-      []
-    end
-    @foo = Array.new
-    @servers.each do |s|
-      @foo << redis.hgetall(s)
-    end
+  get '/nodes/:node' do |n_id|
+    pass if n_id == "create"
+    @node = Node.new(n_id)
 
-    haml :servers
+    @crumbs = []
+    @crumbs << Central.crumb("Dashboard", "/")
+    @crumbs << Central.crumb( "Nodes", "/nodes")
+    @active = Central.crumb(@node.props["name"] + " node", request.path_info)
+
+    @logs = Log.new n_id
+    haml "nodes/show"
   end
-
-  get '/nodes/*' do
-    @keys = params[:splat].first.split('/')
-    @node = case redis.type(@keys)
-    when "string"
-      Array(redis[@keys])
-    when "hash"
-      redis.hgetall(@keys)
-    when "list"
-      redis.lrange(@keys, 0, -1)
-    when "set"
-      redis.smembers(@keys)
-    else
-      []
-    end
-    haml :node
-  end
-
+  
   post '/nodes' do
     id = counter
-    n = Node.new(id).save(params)
-    Cluster.new(params["cluster"]).add_node(n.id)
-    #Resque.enqueue(ServerCreate, params[:name], @env)
-    redirect to('/')
+
+    n = Node.new(id)
+    n.save(params)
+
+    c = Cluster.new(params["cluster_id"])
+    c.add_node(n.id)
+
+    redirect to('/nodes')
   end
 
 end
