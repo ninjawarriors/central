@@ -19,7 +19,8 @@ class Central
     haml "clusters/create"
   end
 
-get '/clusters/:cluster' do |c_id|
+  get '/clusters/:cluster' do |c_id|
+    pass if c_id == "create"
     @cluster = Cluster.new(c_id)
     
     @crumbs = []
