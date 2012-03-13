@@ -21,10 +21,6 @@ class Central
     def cluster
       @cluster ||= Cluster.new(@props["cluster_id"])
     end
-
-    def commands
-      @commands ||= Central.redis.lrange("nodes::#{@id}::command_results", 0, -1).map! {|c| JSON.parse c}
-    end
     
     ## class methods
     def self.list_all

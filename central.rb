@@ -4,6 +4,7 @@ require 'redis'
 require 'resque'
 require 'haml'
 require 'open4'
+require 'json'
 include Open4
 
 DEBUG = true
