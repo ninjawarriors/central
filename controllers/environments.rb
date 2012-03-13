@@ -18,6 +18,7 @@ class Central
   end
 
   get '/environments/:id' do |id|
+    pass if id == "create"
     @environment = Environment.new(id)
     
     @crumbs = []

@@ -15,8 +15,10 @@ class Central
     haml 'commands/create'
   end
   
-  get '/commands/:id' do
-    @command = Command.new(params[:id])
+  get '/commands/:id' do |cd_id|
+    pass if cd_id == "create"
+
+    @command = Command.new(cd_id)
     haml 'commands/show'
   end
 
