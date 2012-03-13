@@ -34,5 +34,5 @@ group :development do
 end
 
 group :noload do
-  gem "central-plugin-skeleton"
+  gem "central-hook-skeleton"
 end
