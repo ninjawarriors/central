@@ -1,5 +1,18 @@
 %h1= "#{@node.cluster.env.props["name"]}:#{@node.cluster.props["name"]}:#{@node.props["name"]}"
-- @node.commands.each do |c|
-  %p= "Started: #{Time.at(c["timestamp_start"])}, completed: #{Time.at(c["timestamp_complete"])}"
-  %p= "Exit status #{c["exit_status"]}"
-  %pre= c["stdout"].join("\n")
+
+-if not @logs.props["finished"] 
+  .row
+    .span4
+      .progress.progress-striped.active
+        .bar(style='width:80%') Deployment in progress
+-else 
+  .row
+    .span4
+      %p= "Started: #{Time.at(@logs.props["started"])}"
+      %p= "Finished: #{Time.at(@logs.props["finished"])}"
+      %p= "Status : #{@logs.props["exit_status"]}"
+
+-if not @logs.stdout.empty?
+  %pre.pre-scrollable= @logs.stdout.join("\n")
+-elsif not @logs.stderr.empty?
+  %pre.pre-scrollable= @logs.stderr.join("\n")
