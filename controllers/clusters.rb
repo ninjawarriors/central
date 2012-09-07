@@ -37,7 +37,7 @@ class Central
     c.save(params)
 
     e = Environment.new(params["environment"])
-    e.add_cluster(c.id)
+    e.add_cluster(params["environment_id"],id)
 
     redirect to('/clusters')
   end
