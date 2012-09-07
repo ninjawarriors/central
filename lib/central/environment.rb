@@ -15,7 +15,8 @@ class Central
       Central.redis.hmset "environments::#{@id}", "name", props_v[:name]
     end
 
-    def add_cluster(c_id)
+    def add_cluster(e_id,c_id)
+      @id = e_id
       Central.redis.sadd "environments::#{@id}::clusters", c_id
     end
 
