@@ -1,10 +1,10 @@
-%h1= @environment.props["name"] + " environment"
+%h1 Support
 
 %table{:border => 0, :width => "100%"}
 	%tr{:align => "left"}
-		%th Cluster Status
-		%th Maintenance
-		%th Upgrade/Downgrade
+		%th Lookup a Number
+		%th Verify a Number
+		%th Buy a Number
 	%tr
 		%td
 			%span= @environment.clusters.size.to_s + " cluster(s)"
@@ -15,10 +15,10 @@
 		%td
 		%td
 			%form{:action => "/foo", :method => "post"}
-				Select Version
+				Number Should 
 				%select{:version => "version_id"}
 				%input{:type => "submit", :value => "Deploy", :class => "btn"}
 	%tr{:align => "left"}
-		%th Backup
-		%th Add Server
-		%th Remove Server
+		%th Debug Logs
+		%th Trace a Call
+		%th Find an Account
