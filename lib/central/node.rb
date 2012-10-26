@@ -5,15 +5,15 @@ class Central
     def initialize(id)
       @id = id
       @key = "nodes"
-      @props = Central.redis.hgetall "nodes::#{@id}" || {}
+      @props = JSON.parse(Central.redis.get "nodes::#{@id}") || {}
     end
 
     def save(props={})
       props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id"].include? k}
 
       Central.redis.sadd "nodes", @id
-      Central.redis.hmset "nodes::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id], "command_id", props_v[:command_id]
       Central.redis.set "nodes::#{props_v[:name]}", @id
+      Central.redis.set "nodes::#{@id}", { :name => props_v[:name], :cluster_id => props_v[:cluster_id], :command_id => props_v[:command_id] }.to_json
 
       Resque.enqueue(Deploy, @key, @id, props_v[:command_id])
     end
