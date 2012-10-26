@@ -9,11 +9,11 @@ class Central
     end
 
     def save(props={})
-      props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id"].include? k}
+      props_v = props.reject {|k,v| not ["name", "ip", "cluster_id", "command_id"].include? k}
 
       Central.redis.sadd "nodes", @id
       Central.redis.set "nodes::#{props_v[:name]}", @id
-      Central.redis.set "nodes::#{@id}", { :id => @id, :name => props_v[:name], :cluster_id => props_v[:cluster_id], :command_id => props_v[:command_id] }.to_json
+      Central.redis.set "nodes::#{@id}", { :id => @id, :name => props_v[:name], :ip => props_v[:ip], :cluster_id => props_v[:cluster_id], :command_id => props_v[:command_id] }.to_json
 
       Resque.enqueue(Deploy, @key, @id, props_v[:command_id])
     end
