@@ -3,7 +3,7 @@
 %ul
 	- @cluster.nodes.each do |node|
 		%li
-			%a{:href => "/nodes/#{node.id}"}= node.props["name"]
+			%a{:href => "/nodes/#{node["id"]}"}= node["name"]
 
 %table{:border => 0, :width => "100%"}
 	%tr{:align => "left"}
