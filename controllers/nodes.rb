@@ -19,11 +19,11 @@ class Central
 
   get '/nodes/:node' do |n_id|
     pass if n_id == "create"
-    @node = Node.new(n_id)
+    @node = Node.info(n_id)
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb( "Nodes", "/nodes")
-    @active = Central.crumb(@node.props["name"] + " node", request.path_info)
+    @active = Central.crumb(@node["name"] + " node", request.path_info)
     @logs = Log.new n_id
     haml "nodes/show"
   end
