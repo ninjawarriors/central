@@ -2,4 +2,4 @@
 .ul
   - @nodes.each do |node|
     .li
-      %a{:href => "/nodes/#{node.id}"}= "#{node.cluster.env.props["name"]}:#{node.cluster.props["name"]}:#{node.props["name"]}"
+      %a{:href => "/nodes/#{node["id"]}"}= "#{node["name"]}"

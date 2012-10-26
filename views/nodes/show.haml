@@ -1,4 +1,4 @@
-%h1= "#{@node.cluster.env.props["name"]}:#{@node.cluster.props["name"]}:#{@node.props["name"]}"
+%h1= "#{@node["name"]}"
 
 -if not @logs.props["finished"] 
   .row
