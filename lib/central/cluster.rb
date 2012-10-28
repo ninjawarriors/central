@@ -31,6 +31,18 @@ class Central
       @env ||= Environment.new(@props["environment_id"])
     end
 
+    def self.upgrade(version, cluster_id)
+      cluster_nodes = Central.redis.smembers "clusters::#{cluster_id}::nodes"
+      cluster_nodes.each do |node_id|
+        node = JSON.parse(Central.redis.get "nodes::#{node_id}")
+        ip = node["ip"]
+
+        puts ip
+      end
+
+      # Resque.enqueue(Upgrade, @id, cluster_id, version)
+    end
+
     ## class methods
     def self.list_all
       clusters = []
