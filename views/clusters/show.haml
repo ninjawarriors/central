@@ -20,9 +20,10 @@
 				.input
 					%label{:version => "version"} 
 					%select{:name => "version"}
-						%option{:value => "v2.09.10"} v2.09.10
+						%option{:value => "v2.5.0"} v2.5.0
 						%option{:value => "v2.10.0"} v2.10.0
 						%option{:value => "v2.10.12"} v2.10.12
+					%input{:name => "cluster_id", :value => @c_id}
 				%input{:type => "submit", :value => "Deploy", :class => "btn"}
 	%tr{:align => "left"}
 		%th Backup
