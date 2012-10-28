@@ -33,14 +33,14 @@ class Central
 
     def self.upgrade(version, cluster_id)
       cluster_nodes = Central.redis.smembers "clusters::#{cluster_id}::nodes"
+      Central.redis.set "clusters::#{cluster_id}::version", version
       cluster_nodes.each do |node_id|
         node = JSON.parse(Central.redis.get "nodes::#{node_id}")
         ip = node["ip"]
 
         puts ip
+        Resque.enqueue(Upgrade, ip, version)
       end
-
-      # Resque.enqueue(Upgrade, @id, cluster_id, version)
     end
 
     ## class methods
