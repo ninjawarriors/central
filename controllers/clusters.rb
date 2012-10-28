@@ -23,6 +23,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Clusters", "/clusters")
     @active = Central.crumb(@cluster.props["name"], request.path_info)
+    @c_version = Central.redis.get "clusters::#{c_id}::version"
     @c_id = c_id
     haml "clusters/show"
   end
@@ -40,5 +41,10 @@ class Central
     n = Cluster.upgrade(params["version"],params["cluster_id"])
     cluster_id = params["cluster_id"]
     redirect to("/clusters/#{cluster_id}")
+  end
+
+  get '/example.json' do
+    content_type :json
+    foo = Central.redis.get "nodes::16"
   end
 end
