@@ -5,7 +5,7 @@ class Central
     def initialize(id)
       @id = id
       @key = "nodes"
-      @props = Central.redis.get "nodes::#{@id}" || {}
+      @props = Central.redis.hgetall "nodes::#{@id}" || {}
     end
 
     def save(props={})
@@ -13,7 +13,7 @@ class Central
 
       Central.redis.sadd "nodes", @id
       Central.redis.set "nodes::#{props_v[:name]}", @id
-      Central.redis.set "nodes::#{@id}", { :id => @id, :name => props_v[:name], :ip => props_v[:ip], :cluster_id => props_v[:cluster_id], :command_id => props_v[:command_id] }.to_json
+      Central.redis.hmset "nodes::#{@id}", "id", @id, "name", props_v[:name], "ip", props_v[:ip], "cluster_id", props_v[:cluster_id], "command_id", props_v[:command_id]
 
       Resque.enqueue(Deploy, @key, @id, props_v[:command_id])
     end
@@ -24,7 +24,7 @@ class Central
 
     def self.info(id)
       @id = id
-      info = JSON.parse(Central.redis.get "nodes::#{@id}") || {}
+      info = Central.redis.hgetall "nodes::#{@id}" || {}
     end
     
     ## class methods
