@@ -36,9 +36,9 @@ class Central
       Central.redis.set "clusters::#{cluster_id}::version", version
       cluster_nodes.each do |node_id|
         node = Central.redis.hgetall "nodes::#{node_id}"
-        ipa = Central.redis.hget "nodes::#{node_id}", "ip"
-        puts ipa
-        Resque.enqueue(Upgrade, ipa, version)
+        ip = Central.redis.hget "nodes::#{node_id}", "ip"
+        puts ip
+        Resque.enqueue(Upgrade, ip, version)
       end
     end
 
