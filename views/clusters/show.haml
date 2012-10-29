@@ -30,3 +30,9 @@
 		%th Backup
 		%th Add Server
 		%th Remove Server
+	%tr
+		%td
+		%td
+			%form{:action => "/nodes", :method => "post"}
+				= partial "forms/nodecreate"
+				%input{:type => "submit", :value => "Deploy", :class => "btn"}
