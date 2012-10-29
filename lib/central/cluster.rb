@@ -35,11 +35,10 @@ class Central
       cluster_nodes = Central.redis.smembers "clusters::#{cluster_id}::nodes"
       Central.redis.set "clusters::#{cluster_id}::version", version
       cluster_nodes.each do |node_id|
-        node = JSON.parse(Central.redis.get "nodes::#{node_id}")
-        ip = node["ip"]
-
-        puts ip
-        Resque.enqueue(Upgrade, ip, version)
+        node = Central.redis.hgetall "nodes::#{node_id}"
+        ipa = Central.redis.hget "nodes::#{node_id}", "ip"
+        puts ipa
+        Resque.enqueue(Upgrade, ipa, version)
       end
     end
 
