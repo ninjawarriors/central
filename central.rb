@@ -50,7 +50,6 @@ class Central < Sinatra::Base
   get '/' do
     @environments = Environment.list_all
     @active = Central.crumb("Dashboard", request.path_info)
-
     @notifications = []
     Central.hooks[:dashboard_notification].each do |hook|
       @notifications << hook.dashboard_notification
@@ -65,6 +64,5 @@ end
 # TODO: Split the workers out better so we don't have to load the entire
 # stack every time
 require './lib/scheduler'
-
 require './lib/libraries'
 require './lib/hooks'
