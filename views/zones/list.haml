@@ -1,0 +1,5 @@
+%h1 Zones
+%ul
+  - @zones.each do |z|
+    %li
+      %a{:href => "/zones/#{z.id}"}=  "#{z.env.props["name"]}:#{z.props["name"]}"
