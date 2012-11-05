@@ -1,5 +1,5 @@
 %h1= @cluster.props["name"] + " cluster"
-%span= @cluster.nodes.size.to_s + " nodes(s)"
+%span= @cluster.nodes.size.to_s + " zones(s)"
 %ul
 	- @cluster.nodes.each do |node|
 		%li
@@ -8,7 +8,7 @@
 %table{:border => 0, :width => "100%"}
 	%tr{:align => "left"}
 		%th Cluster Status
-		%th Maintenance
+		%th Schedule Maintenance
 		%th Upgrade/Downgrade
 	%tr
 		%td

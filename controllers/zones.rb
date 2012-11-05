@@ -3,7 +3,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Zones", "/zones")
-    @zones = Cluster.list_all
+    @zones = Zone.list_all
     haml "zones/list"
   end
 
@@ -18,7 +18,7 @@ class Central
 
   get '/zones/:id' do |id|
     pass if id == "create"
-    @environment = Environment.new(id)
+    @zone = Zone.new(id)
     
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
@@ -29,7 +29,7 @@ class Central
 
   post '/zones' do
     id = counter
-    e = Environment.new(id)
+    e = Zone.new(id)
     e.save(params)
     redirect to('/zones')
   end

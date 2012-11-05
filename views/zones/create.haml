@@ -2,13 +2,13 @@
 %form.well{:action => "/zones", :method => "post"}
   .input
     %label{:for => "environment"}
-      Environment
-    %select{:name => "environment_id"}
-      - @environments.each do |e|
+      Cluster
+    %select{:name => "cluster_id"}
+      - @clusters.each do |e|
         %option{:value => e.id}= e.props["name"]
   .input
     %label{:for => "name"}
-      Cluster Name
+      Zone Name
     %input{:type => "text", :name => "name"}/
   .actions
     %input{:type => "submit", :value => "Create", :class => "btn"}/

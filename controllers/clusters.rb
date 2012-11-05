@@ -18,7 +18,7 @@ class Central
 
   get '/clusters/:cluster' do |c_id|
     pass if c_id == "create"
-    @cluster = Cluster.new(c_id)
+    @zones = Zone.new(c_id)
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Clusters", "/clusters")

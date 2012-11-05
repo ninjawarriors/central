@@ -9,10 +9,10 @@ class Central
     end
 
     def save(props={})
-      props_v = props.reject {|k,v| not ["name", "environment_id", "command_id"].include? k}
+      props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id"].include? k}
 
       Central.redis.sadd "zones", @id
-      Central.redis.hmset "zones::#{@id}", "name", props_v[:name], "environment_id", props_v[:environment_id]
+      Central.redis.hmset "zones::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id]
     end
 
     def add_node(n_id)
@@ -31,6 +31,10 @@ class Central
       @env ||= Environment.new(@props["environment_id"])
     end
 
+    def cluster
+      @cluster ||= Cluster.new(@props["cluster_id"])
+    end
+
     def self.upgrade(version, zone_id)
       zone_nodes = Central.redis.smembers "zones::#{zone_id}::nodes"  
       Central.redis.set "zones::#{zone_id}::version", version
@@ -46,7 +50,7 @@ class Central
     def self.list_all
       zones = []
       Central.redis.smembers("zones").each do |c_id|
-        zones << zone.new(c_id)
+        zones << Zone.new(c_id)
       end
       zones
     end
@@ -54,7 +58,7 @@ class Central
     def self.list(zone_ids)
       zones = []
       zone_ids.each do |id|
-        zones << zone.new(id)
+        zones << Zone.new(id)
       end
       zones
     end
