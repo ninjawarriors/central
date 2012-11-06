@@ -29,7 +29,6 @@ class Central
       @environments ||= Cluster.list(Central.redis.smembers("accounts::#{@id}::environments"))
     end
     
-    ## class methods
     def self.list_all
       envs = []
       Central.redis.smembers("accounts").each do |id|
@@ -37,6 +36,5 @@ class Central
       end
       envs
     end
-
   end
 end
