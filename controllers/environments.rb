@@ -11,6 +11,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Environment", "/environments")
+    @accounts = Account.list_all
     @active = Central.crumb("Create", request.path_info)
     haml "environments/create"
   end

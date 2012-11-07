@@ -1,0 +1,15 @@
+%h1= @account.props["name"] + " Zone"
+
+%ul.well
+	%li{:class => "btn btn-large btn-success"} RabbitMQ
+	%li{:class => "btn btn-large btn-success"} Call Routing
+	%li{:class => "btn btn-large btn-success"} Database
+
+%table{:border => 0, :width => "100%"}
+	%tr
+	%tr
+	%tr
+		%th{:class => "btn btn-mini btn-inverse"}Edit
+	%tr{:align => "left"}
+		%th Monitored
+		%th Enabled

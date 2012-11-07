@@ -1,0 +1,8 @@
+%h1 New Account
+%form.well{:action => "/accounts", :method => "post"}
+  .input
+    %label{:for => "name"}
+      Account Name
+    %input{:type => "text", :name => "name"}/
+  .actions
+    %input{:type => "submit", :value => "Create", :class => "btn"}/

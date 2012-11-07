@@ -3,7 +3,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("accounts", "/accounts")
-    @accounts = account.list_all
+    @accounts = Account.list_all
     haml "accounts/list"
   end
 
@@ -17,7 +17,7 @@ class Central
 
   get '/accounts/:id' do |id|
     pass if id == "create"
-    @account = account.new(id)
+    @account = Account.new(id)
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("account", "/accounts")
@@ -27,8 +27,8 @@ class Central
 
   post '/accounts' do
     id = counter 
-    e = account.new(id)
-    e.save(params)
+    a = Account.new(id)
+    a.save(params)
     redirect to('/accounts')
   end
 end

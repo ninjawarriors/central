@@ -10,7 +10,6 @@ class Central
 
     def save(props={})
       props_v = props.reject {|k,v| not ["name"].include? k} 
-
       Central.redis.sadd "accounts", @id
       Central.redis.hmset "accounts::#{@id}", "name", props_v[:name]
     end
@@ -19,7 +18,6 @@ class Central
       @id = e_id
       Central.redis.sadd "accounts::#{@id}::clusters", c_id
     end
-
 
     def delete_env(c_id)
       Central.redis.srem "accounts::#{@id}::clusters", c_id
@@ -32,7 +30,7 @@ class Central
     def self.list_all
       envs = []
       Central.redis.smembers("accounts").each do |id|
-        envs << account.new(id)
+        envs << Account.new(id)
       end
       envs
     end

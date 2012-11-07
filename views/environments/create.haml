@@ -1,8 +1,14 @@
 %h1 New environment
 %form.well{:action => "/environments", :method => "post"}
-  .input
-    %label{:for => "name"}
-      Environment Name
-    %input{:type => "text", :name => "name"}/
-  .actions
-    %input{:type => "submit", :value => "Create", :class => "btn"}/
+	.input
+		%label{:for => "account"}
+			Account
+		%select{:name => "account_id"}
+			- @accounts.each do |a|
+				%option{:value => a.id}= a.props["name"]
+	.input
+		%label{:for => "name"}
+			Environment Name
+		%input{:type => "text", :name => "name"}/
+	.actions
+		%input{:type => "submit", :value => "Create", :class => "btn"}/

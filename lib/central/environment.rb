@@ -20,7 +20,6 @@ class Central
       Central.redis.sadd "environments::#{@id}::clusters", c_id
     end
 
-
     def delete_cluster(c_id)
       Central.redis.srem "environments::#{@id}::clusters", c_id
     end
