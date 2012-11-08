@@ -30,6 +30,8 @@ class Central
     id = counter 
     e = Environment.new(id)
     e.save(params)
+    a = Account.new(id)
+    a.add_env(params["account_id"],id)
     redirect to('/environments')
   end
 end

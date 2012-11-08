@@ -1,9 +1,8 @@
 %h1= @account.props["name"] + " Account"
 
 %ul.well
-	%li{:class => "btn btn-large btn-success"} RabbitMQ
-	%li{:class => "btn btn-large btn-success"} Call Routing
-	%li{:class => "btn btn-large btn-success"} Database
+	- @environments.each do |e|
+		%a{:class => "btn btn-large btn-success"}= e["name"]
 
 %table{:border => 0, :width => "100%"}
 	%tr

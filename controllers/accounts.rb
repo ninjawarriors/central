@@ -18,6 +18,7 @@ class Central
   get '/accounts/:id' do |id|
     pass if id == "create"
     @account = Account.new(id)
+    @environments = Account.env_list_all(id)
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("account", "/accounts")
