@@ -9,10 +9,10 @@ class Central
     end
 
     def save(props={})
-      props_v = props.reject {|k,v| not ["name"].include? k} 
+      props_v = props.reject {|k,v| not ["name", "account_id"].include? k} 
 
       Central.redis.sadd "environments", @id
-      Central.redis.hmset "environments::#{@id}", "name", props_v[:name]
+      Central.redis.hmset "environments::#{@id}", "name", props_v[:name], "account_id", props_v[:account_id]
     end
 
     def add_cluster(e_id,c_id)
