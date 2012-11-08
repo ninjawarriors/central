@@ -4,7 +4,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Nodes", "/nodes")
     @nodes = Node.list_all
-    haml "nodes/list", :layout => :layout2
+    haml "nodes/list"
   end
 
   get "/nodes/create" do

@@ -1,5 +1,5 @@
 %h1
-  Environments
+  2600hz Platform Management Tool
 - unless @notifications.empty?
   .alert
     = @notifications.join("<br />")
@@ -9,6 +9,6 @@
       %i.icon-plus
       New
 .row
-- @environments.each do |env|
+- @accounts.each do |env|
   .span2.well
-    %a{:href => "/environments/#{env.id}"}= env.props["name"]
+    %a{:href => "/accounts/#{env.id}"}= env.props["name"]
