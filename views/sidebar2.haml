@@ -1,0 +1,9 @@
+.well{:style => "padding: 8px 0;"}
+  %ul.nav.nav-list
+    %li.nav-header Accounts
+    %li
+      %a{:href => "/accounts/create"} Create
+  %ul.nav.nav-list
+    - @accounts.each do |e|
+      %li
+        %a{:href => "/accounts/#{e.id}"}= e.props["name"]

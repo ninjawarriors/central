@@ -4,7 +4,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Nodes", "/nodes")
     @nodes = Node.list_all
-    haml "nodes/list"
+    haml "nodes/list", :layout => :layout2
   end
 
   get "/nodes/create" do
@@ -12,7 +12,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Nodes", "/nodes")
     @active = Central.crumb("Create")
-    @clusters = Cluster.list_all
+    @zones = Zone.list_all
     @commands = Command.list_all
     haml "nodes/create"
   end
@@ -32,8 +32,8 @@ class Central
     id = counter
     n = Node.new(id)
     n.save(params)
-    c = Cluster.new(params["cluster_id"])
-    c.add_node(n.id)
+    z = Zone.new(params["zone_id"])
+    z.add_node(n.id)
     redirect to('/nodes')
   end
 end

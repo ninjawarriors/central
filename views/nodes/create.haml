@@ -9,9 +9,9 @@
   %label{:for => "cluster"}
     Which cluster does this node belong to
   .input
-  %select{:name => "cluster_id"}
-    - @clusters.each do |c|
-      %option{:value => c.id}= "#{c.props["name"]}"
+  %select{:name => "zone_id"}
+    - @zones.each do |z|
+      %option{:value => z.id}= "#{z.props["name"]}"
   .input
     Recipe
   %select{:name => "command_id"}

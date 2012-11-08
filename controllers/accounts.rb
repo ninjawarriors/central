@@ -4,7 +4,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("accounts", "/accounts")
     @accounts = Account.list_all
-    haml "accounts/list"
+    haml "accounts/list", :layout => :layout2
   end
 
   get '/accounts/create' do
@@ -12,7 +12,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("account", "/accounts")
     @active = Central.crumb("Create", request.path_info)
-    haml "accounts/create"
+    haml "accounts/create", :layout => :layout2
   end
 
   get '/accounts/:id' do |id|
@@ -22,7 +22,7 @@ class Central
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("account", "/accounts")
     @active = Central.crumb(@account.props["name"], request.path_info)
-    haml "accounts/show"
+    haml "accounts/show", :layout => :layout2
   end
 
   post '/accounts' do

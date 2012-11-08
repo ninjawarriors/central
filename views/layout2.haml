@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %title
+      = @title ? @title + " - " : ""
+      Natoma - 2600hz
+    %link(rel="stylesheet" href="/css/bootstrap.min.css")
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"}
+    %script{:src => "../../js/bootstrap-modal.js"}
+    %body(style="padding-top:60px")
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container-fluid
+            %a.brand{:href => "/"} Central
+            %ul(class="nav")
+              %li
+                %a(href="/commands") Commands
+              %li
+                %a{:href => "/scheduler"} Scheduler
+              %li
+                %a{:href => "/support"} Support
+              %li
+                %a{:href => "/builds"} Builds
+            %ul.nav.pull-right
+              %li
+                %a{:href => "/admin"} Admin
+      .container-fluid
+        .row-fluid
+          .span2
+            = partial "sidebar2"
+          - if !@crumbs.empty? || !@active.nil?
+            .span10
+              = partial "breadcrumbs"
+          .span10
+            =yield

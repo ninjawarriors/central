@@ -50,6 +50,7 @@ class Central < Sinatra::Base
   get '/' do
     @environments = Environment.list_all
     @active = Central.crumb("Dashboard", request.path_info)
+    @accounts = Account.list_all
     @notifications = []
     Central.hooks[:dashboard_notification].each do |hook|
       @notifications << hook.dashboard_notification
