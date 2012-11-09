@@ -14,8 +14,10 @@ class Central
       Central.redis.sadd "nodes", @id
       Central.redis.set "nodes::#{props_v[:name]}", @id
       Central.redis.hmset "nodes::#{@id}", "id", @id, "name", props_v[:name], "ip", props_v[:ip], "zone_id", props_v[:zone_id], "command_id", props_v[:command_id], "role", props_v[:role]
+    end
 
-      Resque.enqueue(Deploy, @key, @id, props_v[:command_id])
+    def self.deploy(ip)
+      Resque.enqueue(Deploy, @key, @id, ip)
     end
 
     def cluster
