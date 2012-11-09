@@ -5,6 +5,11 @@
 	%li{:class => "btn btn-large btn-success"} Call Routing
 	%li{:class => "btn btn-large btn-success"} Database
 
+%ul.well
+	- @zone.nodes.each do |n|
+		%li
+			%a{:href => "/nodes/#{n["node_id"]}"}= n["name"]
+
 %table{:border => 0, :width => "100%"}
 	%tr
 	%tr

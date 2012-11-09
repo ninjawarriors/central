@@ -19,7 +19,6 @@ class Central
   get '/zones/:id' do |id|
     pass if id == "create"
     @zone = Zone.new(id)
-    
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Environment", "/zones")
