@@ -2,7 +2,7 @@
 
 %ul.well
 	- @environments.each do |e|
-		%a{:class => "btn btn-large btn-success"}= e["name"]
+		%a{:href => "/environments/#{e["env_id"]}", :class => "btn btn-large btn-success"}= e["name"]
 
 %table{:border => 0, :width => "100%"}
 	%tr

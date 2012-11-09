@@ -15,16 +15,18 @@ class Central
       Central.redis.hmset "clusters::#{@id}", "name", props_v[:name], "environment_id", props_v[:environment_id]
     end
 
-    def add_node(n_id)
-      Central.redis.sadd "clusters::#{@id}::nodes", n_id
+    def add_zone(c_id,z_id)
+      @id = c_id
+      Central.redis.sadd "clusters::#{@id}::zones", z_id
     end
         
-    def delete_node(n_id)
-      Central.redis.srem "clusters::#{@id}::nodes", n_id
+    def delete_zone(c_id,z_id)
+      @id = c_id
+      Central.redis.srem "clusters::#{@id}::zones", z_id
     end
     
-    def nodes
-      @nodes ||= Node.list( Central.redis.smembers("clusters::#{@id}::nodes"))
+    def zones
+      @zones ||= Zone.list( Central.redis.smembers("clusters::#{@id}::zones"))
     end
 
     def env

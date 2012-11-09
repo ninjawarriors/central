@@ -32,6 +32,15 @@ class Central
 
 		def self.env_list_all(id)
 			@id = id
+			env_list = []
+			Central.redis.smembers("accounts::#{@id}::environments").each do |e|
+				env_list << e
+			end
+			env_list
+		end
+
+		def self.env_info(id)
+			@id = id
 			envs = []
 			Central.redis.smembers("accounts::#{@id}::environments").each do |e|
 				env = Central.redis.hgetall "environments::#{e}"

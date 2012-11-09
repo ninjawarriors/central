@@ -1,9 +1,9 @@
 %h1= @cluster.props["name"] + " cluster"
 %span= @cluster.nodes.size.to_s + " zones(s)"
 %ul
-	- @cluster.nodes.each do |node|
+	- @cluster.zones.each do |node|
 		%li
-			%a{:href => "/nodes/#{node["id"]}"}= node["name"]
+			%a{:href => "/zones/#{node["cluster_id"]}"}= node["name"]
 
 %table{:border => 0, :width => "100%"}
 	%tr{:align => "left"}

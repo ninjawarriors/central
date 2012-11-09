@@ -29,8 +29,10 @@ class Central
 
   post '/zones' do
     id = counter
-    e = Zone.new(id)
-    e.save(params)
+    z = Zone.new(id)
+    z.save(params)
+    c = Cluster.new(params["cluster_id"])
+    c.add_zone(params["cluster_id"], id)
     redirect to('/zones')
   end
 
