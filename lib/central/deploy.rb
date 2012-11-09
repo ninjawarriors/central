@@ -9,6 +9,58 @@ class Central
       install_curl(ip)
       curl_repo(ip)
       setup_deps(ip)
+      env_reset(ip)
+      copy(ip)
+      chef_solo(ip)
+    end
+
+    def self.install_curl(ip)
+      debug = "Installing curl on Node #{ip}"
+      cmd = "yum install -y curl"
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.install_epel(ip)
+      debug = "Installing Epel on Node #{ip}"
+      cmd = "rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm"
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.curl_repo(ip)
+      debug = "Downloading Chef-Solo files on Node #{ip}"
+      cmd ="curl -# -L -k https://gist.github.com/gists/6ca69e9fec594156a846/download | tar xz --strip 1 -C ."
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.setup_deps(ip)
+      debug = "Running bootstrap script on Node #{ip}"
+      cmd = "bash ~/bootstrap.sh"
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.env_reset(ip)
+      debug = "Updating ENV variables on Node #{ip}"
+      cmd = "source /etc/profile"
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.copy(ip)
+      debug = "Copying files to the correct locations on Node #{ip}"
+      cmd = "cp foo1.json /root/data_bags/accounts"
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.chef_solo(ip)
+      debug = "Running Chef Solo on Node #{ip}"
+      cmd = "chef-solo -j node.json -c solo.rb -l debug"
+      ip = ip
+      queue(debug, cmd, ip)
     end
 
     def self.queue(debug, cmd, ip)
@@ -38,34 +90,6 @@ class Central
         puts b_stdout
         puts b_stderr if b_stderr
       end
-    end
-
-    def self.install_curl(ip)
-      debug = "Installing curl on Node #{ip}"
-      cmd = "yum install -y curl"
-      ip = ip
-      queue(debug, cmd, ip)
-    end
-
-    def self.install_epel(ip)
-      debug = "Installing Epel on Node #{ip}"
-      cmd = "rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm"
-      ip = ip
-      queue(debug, cmd, ip)
-    end
-
-    def self.curl_repo(ip)
-      debug = "Downloading Chef-Solo files on Node #{ip}"
-      cmd ="curl -# -L -k https://gist.github.com/gists/6ca69e9fec594156a846/download | tar xz --strip 1 -C ."
-      ip = ip
-      queue(debug, cmd, ip)
-    end
-
-    def self.setup_deps(ip)
-      debug = "Running bootstrap script on Node #{ip}"
-      cmd = "bash ~/bootstrap.sh"
-      ip = ip
-      queue(debug, cmd, ip)
     end
 
     def self.perform_old(object, object_id, command_id)
