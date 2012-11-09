@@ -8,7 +8,7 @@
 %ul.well
 	- @zone.nodes.each do |n|
 		%li
-			%a{:href => "/nodes/#{n["node_id"]}"}= n["name"]
+			%a{:href => "/nodes/#{n["id"]}"}= n["name"]
 
 %table{:border => 0, :width => "100%"}
 	%tr
@@ -21,9 +21,6 @@
 	%tr{:align => "left"}
 		%th Mainenance Schedule  
 		%th none scheduled
-	%tr{:align => "left"}
-		%th Local IP Address
-		%th 192.168.1.10
 	%tr{:align => "left"}
 		%th Maintenance Notfication Alerts
 		%th Email and Phone
@@ -44,3 +41,35 @@
 	%tr{:align => "left"}
 		%th Backup Method
 		%th SCP
+%hr
+%table{:border => 0, :width => "100%"}
+	%tr{:align => "left"}
+		%th Cluster Status
+		%th Schedule Maintenance
+		%th Upgrade/Downgrade
+	%tr
+		%td
+			Version
+			= @z_version
+		%td
+		%td
+			%form{:action => "/deploys", :method => "post"}
+				Select Version
+				.input
+					%label{:version => "version"} 
+					%select{:name => "version"}
+						%option{:value => "v2.5.0"} v2.5.0
+						%option{:value => "v2.10.0"} v2.10.0
+						%option{:value => "v2.10.12"} v2.10.12
+					%input{:type => "hidden", :name => "zone_id", :value => @z_id}
+				%input{:type => "submit", :value => "Deploy", :class => "btn"}
+	%tr{:align => "left"}
+		%th Backup
+		%th Add Server
+		%th Remove Server
+	%tr
+		%td
+		%td
+			%form{:action => "/nodes", :method => "post"}
+				= partial "forms/nodecreate"
+				%input{:type => "submit", :value => "Deploy", :class => "btn"}
