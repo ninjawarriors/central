@@ -32,6 +32,7 @@ class Central
     id = counter
     n = Node.new(id)
     n.save(params)
+    d = Node.deploy(params["ip"])
     z = Zone.new(params["zone_id"])
     z.add_node(n.id)
     redirect to('/nodes')
