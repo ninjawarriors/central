@@ -35,4 +35,14 @@ class Central
     redirect to('/zones')
   end
 
+  post '/deploys' do
+    n = Cluster.upgrade(params["version"],params["cluster_id"])
+    cluster_id = params["cluster_id"]
+    redirect to("/clusters/#{cluster_id}")
+  end
+
+  get '/example.json' do
+    content_type :json
+    foo = Central.redis.get "nodes::16"
+  end
 end
