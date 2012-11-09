@@ -34,13 +34,14 @@ class Central
     end
 
     def self.upgrade(version, cluster_id)
-      cluster_nodes = Central.redis.smembers "clusters::#{cluster_id}::nodes"
+      cluster_zones = Central.redis.smembers "clusters::#{cluster_id}::zones"
       Central.redis.set "clusters::#{cluster_id}::version", version
-      cluster_nodes.each do |node_id|
-        node = Central.redis.hgetall "nodes::#{node_id}"
-        ip = Central.redis.hget "nodes::#{node_id}", "ip"
-        puts ip
-        Resque.enqueue(Upgrade, ip, version)
+      cluster_zones.each do |zone_id|
+        nodes = Central.redis.smembers "zones::#{zone_id}::nodes"
+        nodes.each do |node|
+          ip = Central.redis.hget "nodes::#{node}", "ip"
+          Resque.enqueue(Upgrade, ip, version)
+        end
       end
     end
 

@@ -39,8 +39,8 @@ class Central
   end
 
   post '/cluster_deploys' do
-    n = Zone.upgrade(params["version"],params["zone_id"])
-    zone_id = params["zone_id"]
-    redirect to("/zones/#{zone_id}")
+    n = Cluster.upgrade(params["version"],params["cluster_id"])
+    cluster_id = params["cluster_id"]
+    redirect to("/clusters/#{cluster_id}")
   end
 end
