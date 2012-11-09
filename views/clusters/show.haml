@@ -3,7 +3,7 @@
 %ul
 	- @cluster.zones.each do |node|
 		%li
-			%a{:href => "/zones/#{node["cluster_id"]}"}= node["name"]
+			%a{:href => "/zones/#{node["zone_id"]}"}= node["name"]
 
 %table{:border => 0, :width => "100%"}
 	%tr{:align => "left"}
