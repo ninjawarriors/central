@@ -9,7 +9,7 @@ class Central
 			log = Log.new object_id
 			b_stdout = Log::Buffer.new object_id, "stdout"
       b_stderr = Log::Buffer.new object_id, "stderr"
-			command = "ssh -p 22223 #{ip} 'cat /etc/issue'"
+			command = "ssh -p 22 root@#{ip} 'cat /etc/issue'"
 
 			begin
 				status = spawn command, 'stdout' => b_stdout, 'stderr' => b_stderr
@@ -19,7 +19,6 @@ class Central
 			h['finished'] = Time.now.to_f
 			log.save h
 
-
 			if DEBUG
         puts command
         puts status.to_i
@@ -27,6 +26,5 @@ class Central
         puts b_stderr if b_stderr
       end
 		end
-
 	end
 end
