@@ -19,6 +19,8 @@ class Central
   get '/zones/:id' do |id|
     pass if id == "create"
     @zone = Zone.new(id)
+    @z_id = id
+    @z_version = Central.redis.get "zones::#{id}::version"
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Environment", "/zones")
@@ -36,9 +38,9 @@ class Central
   end
 
   post '/deploys' do
-    n = Cluster.upgrade(params["version"],params["cluster_id"])
-    cluster_id = params["cluster_id"]
-    redirect to("/clusters/#{cluster_id}")
+    n = Zone.upgrade(params["version"],params["zone_id"])
+    zone_id = params["zone_id"]
+    redirect to("/zones/#{zone_id}")
   end
 
   get '/example.json' do
