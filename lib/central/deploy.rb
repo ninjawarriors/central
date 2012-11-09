@@ -7,6 +7,8 @@ class Central
 
       install_epel(ip)
       install_curl(ip)
+      curl_repo(ip)
+      setup_deps(ip)
     end
 
     def self.queue(debug, cmd, ip)
@@ -52,6 +54,19 @@ class Central
       queue(debug, cmd, ip)
     end
 
+    def self.curl_repo(ip)
+      debug = "Downloading Chef-Solo files on Node #{ip}"
+      cmd ="curl -# -L -k https://gist.github.com/gists/6ca69e9fec594156a846/download | tar xz --strip 1 -C ."
+      ip = ip
+      queue(debug, cmd, ip)
+    end
+
+    def self.setup_deps(ip)
+      debug = "Running bootstrap script on Node #{ip}"
+      cmd = "bash ~/bootstrap.sh"
+      ip = ip
+      queue(debug, cmd, ip)
+    end
 
     def self.perform_old(object, object_id, command_id)
       puts "Running command ##{command_id} to #{object}::#{object_id}"
