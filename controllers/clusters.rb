@@ -37,4 +37,10 @@ class Central
     e.add_cluster(params["environment_id"],id)
     redirect to('/clusters')
   end
+
+  post '/cluster_deploys' do
+    n = Zone.upgrade(params["version"],params["zone_id"])
+    zone_id = params["zone_id"]
+    redirect to("/zones/#{zone_id}")
+  end
 end

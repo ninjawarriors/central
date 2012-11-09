@@ -37,7 +37,7 @@ class Central
     redirect to('/zones')
   end
 
-  post '/deploys' do
+  post '/zone_deploys' do
     n = Zone.upgrade(params["version"],params["zone_id"])
     zone_id = params["zone_id"]
     redirect to("/zones/#{zone_id}")
