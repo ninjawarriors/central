@@ -1,6 +1,6 @@
-# Natoma
+# Central
 
-Natoma - an interesting resque & sinatra-boilerplate based cluster management system!
+Central - an interesting resque & sinatra-boilerplate based cluster management system!
 
 ## Why?
 
