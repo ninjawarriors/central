@@ -12,7 +12,7 @@ class Central
       props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id"].include? k}
 
       Central.redis.sadd "zones", @id
-      Central.redis.hmset "zones::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id]
+      Central.redis.hmset "zones::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id], "zone_id", @id
     end
 
     def add_node(n_id)
