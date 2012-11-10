@@ -1,4 +1,4 @@
-%h1= "#{@node["name"]}"
+%h1= @node["name"]
 
 -if not @logs.props["finished"] 
   .row
@@ -23,20 +23,20 @@
 %table{:border => 0, :width => "100%"}
   %tr{:align => "left"}
     %th IP Address
-    %th 10.10.10.11
+    %th= @node["ip"]
   %tr{:align => "left"}
     %th FQDN   
-    %th foo.domain.com
+    %th 
   %tr{:align => "left"}
     %th Local IP Address
-    %th 192.168.1.10
+    %th 
   %tr{:align => "left"}
     %th Public IP Address
-    %th 8.8.1.2
+    %th 
   %tr{:align => "left"}
     %th SSH Key
   %tr{:align => "left"}
     %th Node Role(s)
-    %th FreeSWITCH
+    %th= @node["role"]
   %tr{:align => "left"}
     %th Service Status
