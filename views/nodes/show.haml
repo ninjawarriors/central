@@ -40,3 +40,26 @@
     %th= @node["role"]
   %tr{:align => "left"}
     %th Service Status
+%hr
+%table{:border => 0, :width => "100%"}
+  %tr{:align => "left"}
+    %th Cluster Status
+    %th Schedule Maintenance
+    %th Upgrade/Downgrade
+  %tr
+    %td
+      Version
+      = @z_version
+    %td
+    %td
+      %form{:action => "/node_upgrade", :method => "post"}
+        Select Version
+        .input
+          %label{:version => "version"} 
+          %select{:name => "version"}
+            %option{:value => "v2.5.0"} v2.5.0
+            %option{:value => "v2.10.0"} v2.10.0
+            %option{:value => "v2.10.12"} v2.10.12
+          %input{:type => "hidden", :name => "zone_id", :value => @z_id}
+          %input{:type => "hidden", :name => "name", :value => @node["name"]}
+        %input{:type => "submit", :value => "Deploy", :class => "btn"}

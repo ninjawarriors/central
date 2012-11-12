@@ -46,5 +46,15 @@ class Central
       nodes
     end
 
+    def test(props={})
+      props_v = props.reject {|k,v| not ["zone_id", "name", "version"]}
+      test = {
+        "name" => props_v[:name],
+        "version" => props_v[:version]
+      }
+      File.open("/tmp/#{props_v[:name]}", "w") do |f|
+        f.write(JSON.pretty_generate(test))
+      end
+    end
   end
 end

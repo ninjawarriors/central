@@ -37,4 +37,11 @@ class Central
     z.add_node(n.id)
     redirect to('/nodes')
   end
+
+  post '/node_upgrade' do
+    id = counter
+    n = Node.new(id)
+    n.test(params)
+    redirect to('/nodes')
+  end
 end
