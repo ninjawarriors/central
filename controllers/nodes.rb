@@ -31,9 +31,13 @@ class Central
   
   post '/nodes' do
     id = counter
+    zone_id = params["zone_id"]
+    @z_version = Central.redis.get "zones::#{zone_id}::version"
+    @z = Zone.info(zone_id)
     n = Node.new(id)
     n.save(params)
-    d = Node.deploy(params["ip"])
+    n.add_node(params, id, @z_version, @z["erlang_cookie"])
+    d = Node.deploy(params["ip"], id, params["name"])
     z = Zone.new(params["zone_id"])
     z.add_node(n.id)
     redirect to('/nodes')
