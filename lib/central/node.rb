@@ -46,13 +46,19 @@ class Central
 			nodes
 		end
 
-		def test(props, z)
+		def test(props, ver, z)
+			puts props
+			puts props["name"]
 			props_v = props.reject {|k,v| not ["zone_id", "name", "version"]}
+			puts props_v["version"]
+			puts props_v["name"]
 			@z = z
+			@ver = ver
+			puts @ver
 			puts @z
 			test = {
-				"name" => props_v[:name],
-				"version" => props_v[:version],
+				"name" => props_v["name"],
+				"version" => @ver,
 				"erlang_cookie" => @z,
 				"client_id" => "foo2"
 			}
@@ -61,7 +67,7 @@ class Central
 			buffer = resp.body
 			result = JSON.parse(buffer)
 			merge_test = test.merge(result)
-			File.open("/tmp/#{props_v[:name]}", "w") do |f|
+			File.open("/tmp/#{props_v["name"]}", "w") do |f|
 				f.write(JSON.pretty_generate(merge_test))
 			end
 		end
