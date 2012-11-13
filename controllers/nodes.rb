@@ -20,6 +20,7 @@ class Central
   get '/nodes/:node' do |n_id|
     pass if n_id == "create"
     @node = Node.info(n_id)
+    @z_version = Central.redis.get "zones::#{@node["zone_id"]}::version"
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb( "Nodes", "/nodes")
@@ -40,8 +41,11 @@ class Central
 
   post '/node_upgrade' do
     id = counter
+    node_id = params["node_id"]
+    zone_id = params["zone_id"]
+    @z = Zone.info(zone_id)
     n = Node.new(id)
-    n.test(params)
-    redirect to('/nodes')
+    n.test(params, @z["erlang_cookie"])
+    redirect to("/nodes/#{node_id}")
   end
 end

@@ -60,6 +60,7 @@
             %option{:value => "v2.5.0"} v2.5.0
             %option{:value => "v2.10.0"} v2.10.0
             %option{:value => "v2.10.12"} v2.10.12
-          %input{:type => "hidden", :name => "zone_id", :value => @z_id}
+          %input{:type => "hidden", :name => "zone_id", :value => @node["zone_id"]}
           %input{:type => "hidden", :name => "name", :value => @node["name"]}
+          %input{:type => "hidden", :name => "node_id", :value => @node["id"]}
         %input{:type => "submit", :value => "Deploy", :class => "btn"}
