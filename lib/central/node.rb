@@ -16,8 +16,10 @@ class Central
 			Central.redis.hmset "nodes::#{@id}", "id", @id, "name", props_v[:name], "ip", props_v[:ip], "zone_id", props_v[:zone_id], "command_id", props_v[:command_id], "role", props_v[:role]
 		end
 
-		def self.deploy(ip)
-			Resque.enqueue(Deploy, @key, @id, ip)
+		def self.deploy(ip, node_id, node_name)
+			puts @id
+			puts node_id
+			Resque.enqueue(Deploy, @key, @id, ip, node_id, node_name)
 		end
 
 		def cluster
@@ -44,6 +46,26 @@ class Central
 				nodes << Node.info(n_id)
 			end
 			nodes
+		end
+
+		def add_node(props, id, ver, erlang_cookie)
+			puts props
+			props_v = props.reject {|k,v| not ["zone_id", "name", "version"]}
+			@z = erlang_cookie
+			@ver = ver
+			test = {
+				"name" => props_v["name"],
+				"version" => @ver,
+				"erlang_cookie" => @z
+			}
+			url = "http://hudson.2600hz.org/v2.5.0.json"
+			resp = Net::HTTP.get_response(URI.parse(url))
+			buffer = resp.body
+			result = JSON.parse(buffer)
+			merge_test = test.merge(result)
+			File.open("/tmp/#{id}-#{props_v["name"]}.json", "w") do |f|
+				f.write(JSON.pretty_generate(merge_test))
+			end
 		end
 
 		def test(props, ver, z)
