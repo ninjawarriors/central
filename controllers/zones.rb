@@ -42,9 +42,4 @@ class Central
     zone_id = params["zone_id"]
     redirect to("/zones/#{zone_id}")
   end
-
-  get '/example.json' do
-    content_type :json
-    foo = Central.redis.get "nodes::16"
-  end
 end
