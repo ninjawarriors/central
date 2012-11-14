@@ -50,19 +50,28 @@ class Central
 
 		def add_node(props, id, ver, erlang_cookie)
 			puts props
-			props_v = props.reject {|k,v| not ["zone_id", "name", "version"]}
+			props_v = props.reject {|k,v| not ["zone_id", "name", "version", "role"]}
 			@z = erlang_cookie
 			@ver = ver
+			case props_v["role"]
+				when "opensips", "whapps", "rabbitmq"
+					run_list = "role[winkstart_deploy_haproxy]", "role[winkstart_deploy_whapps]", "recipe[apache2::winkstart]", "recipe[winkstart]", "role[winkstart_deploy_opensips]"
+				when "freeswitch"
+					run_list = "role[winkstart_deploy_whistle_fs]"
+				when "bigcouch"
+					run_list = "role[winkstart_deploy_bigcouch]"
+			end
 			test = {
 				"name" => props_v["name"],
 				"version" => @ver,
-				"erlang_cookie" => @z
+				"erlang_cookie" => @z,
+				"run_list" => run_list
 			}
 			url = "http://hudson.2600hz.org/v2.5.0.json"
 			resp = Net::HTTP.get_response(URI.parse(url))
 			buffer = resp.body
 			result = JSON.parse(buffer)
-			merge_test = test.merge(result)
+			merge_test = result.merge(test)
 			File.open("/tmp/#{id}-#{props_v["name"]}.json", "w") do |f|
 				f.write(JSON.pretty_generate(merge_test))
 			end
