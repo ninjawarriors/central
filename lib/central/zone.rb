@@ -9,10 +9,10 @@ class Central
     end
 
     def save(props={})
-      props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id", "erlang_cookie"].include? k}
+      props_v = props.reject {|k,v| not ["name", "cluster_id", "command_id", "erlang_cookie", "version"].include? k}
 
       Central.redis.sadd "zones", @id
-      Central.redis.hmset "zones::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id], "zone_id", @id, "erlang_cookie", props_v[:erlang_cookie]
+      Central.redis.hmset "zones::#{@id}", "name", props_v[:name], "cluster_id", props_v[:cluster_id], "zone_id", @id, "erlang_cookie", props_v[:erlang_cookie], "version", props_v[:version]
     end
 
     def add_node(n_id)

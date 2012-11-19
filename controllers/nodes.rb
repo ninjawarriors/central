@@ -35,7 +35,7 @@ class Central
     @z_version = Central.redis.get "zones::#{zone_id}::version"
     @z = Zone.info(zone_id)
     n = Node.new(id)
-    n.save(params)
+    n.save(id, zone_id, params["ip"], params["name"], params["role"])
     n.add_node(params, id, @z_version, @z["erlang_cookie"])
     d = Node.deploy(params["ip"], id, params["name"])
     z = Zone.new(params["zone_id"])

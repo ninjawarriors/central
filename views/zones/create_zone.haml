@@ -6,6 +6,12 @@
   Zone Erlang Cookie
   %input{:type => "text", :size => "30", :name => "erlang_cookie"}
   %hr
+  Select Version
+  %select{:name => "version"}
+    %option{:value => "v2.5.0"} v2.5.0
+    %option{:value => "v2.10.0"} v2.10.0
+    %option{:value => "v2.10.12"} v2.10.12
+  %hr
   App Server 1 (Whapps / Ecallmgr / RabbitMQ / HAProxy)
   %label{:for => "name"}
     Node Name

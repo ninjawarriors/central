@@ -5,7 +5,7 @@ class Central
 		def initialize(id)
 			@id = id
 			@key = "nodes"
-			@props = Central.redis.hgetall "nodes::#{@id}" || {}
+			@props = Central.redis.hgetall "nodes::#{id}" || {}
 		end
 
 		def save(n_id, zone_id, ip, name, role)
@@ -27,7 +27,7 @@ class Central
 
 		def self.info(id)
 			@id = id
-			info = Central.redis.hgetall "nodes::#{@id}" || {}
+			info = Central.redis.hgetall "nodes::#{id}" || {}
 		end
 		
 		## class methods
