@@ -37,6 +37,21 @@ class Central
     redirect to('/zones')
   end
 
+  post '/zone_create' do
+    id = counter
+    zone_id = params["zone_id"]
+    @z = Zone.info(zone_id)
+    z = Zone.new(id)
+    z.save(params)
+    c = Cluster.new(params["cluster_id"])
+    c.add_zone(params["cluster_id"], id)
+    params['server'].each do |k,v|
+      puts v['ip'], v['name'], v['role']
+      puts params['zone_id']
+    end
+    redirect to('/zones')
+  end
+
   post '/zone_deploys' do
     n = Zone.upgrade(params["version"],params["zone_id"])
     zone_id = params["zone_id"]

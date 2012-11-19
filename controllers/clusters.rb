@@ -16,6 +16,12 @@ class Central
     haml "clusters/create"
   end
 
+  get '/clusters/:id/create_zone' do |id|
+    puts id
+    @cluster_id = id
+    haml "zones/create_zone"
+  end
+
   get '/clusters/:cluster' do |c_id|
     pass if c_id == "create"
     @cluster = Cluster.new(c_id)

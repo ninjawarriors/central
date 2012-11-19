@@ -8,6 +8,7 @@ class Central
       @props = Central.redis.hgetall "clusters::#{@id}" || {}
     end
 
+
     def save(props={})
       props_v = props.reject {|k,v| not ["name", "environment_id", "command_id"].include? k}
 

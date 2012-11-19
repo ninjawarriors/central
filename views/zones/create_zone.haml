@@ -1,0 +1,65 @@
+%h1 Create a New Zone
+%form.well{:action => "/zone_create", :method => "post"}
+  Zone Name
+  %input{:type => "text", :size => "30", :name => "name"}
+  %hr
+  App Server 1 (Whapps / Ecallmgr / RabbitMQ / HAProxy)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[0][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[0][ip]"}
+  %hr
+  App Server 2 (Whapps / Ecallmgr / RabbitMQ / HAProxy)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[1][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[1][ip]"}
+  %hr
+  DB Server 1 (BigCouch DB)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[2][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[2][ip]"}
+  %hr
+  DB Server 2 (BigCouch DB)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[3][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[3][ip]"}
+  %hr
+  DB Server 3 (BigCouch DB)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[4][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[4][ip]"}
+  %hr
+  Media Gateway Server 1 (FreeSWITCH)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[5][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[5][ip]"}
+  %hr
+  Media Gateway Server 2 (FreeSWITCH)
+  %label{:for => "name"}
+    Node Name
+  %input{:type => "text", :size => "30", :name => "server[6][name]"}
+  %label{:for => "name"}
+    IP Address
+  %input{:type => "text", :size => "30", :name => "server[6][ip]"}
+  
+  %hr
+  %input{:type => "hidden", :name => "zone_id", :value => @z_id}
+  %input{:type => "hidden", :name => "cluster_id", :value => @cluster_id}
+  %input{:type => "submit", :value => "Create New Zone", :class => "btn"}
