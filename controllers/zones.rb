@@ -39,7 +39,7 @@ class Central
 
   post '/zone_create' do
     id = counter
-    zone_id = params["zone_id"]
+    zone_id = id
     @z = Zone.info(zone_id)
     z = Zone.new(id)
     z.save(params)
@@ -47,7 +47,7 @@ class Central
     c.add_zone(params["cluster_id"], id)
     params['server'].each do |k,v|
       puts v['ip'], v['name'], v['role']
-      puts params['zone_id']
+      puts zone_id
     end
     redirect to('/zones')
   end
