@@ -41,13 +41,16 @@ class Central
     id = counter
     zone_id = id
     @z = Zone.info(zone_id)
+    n = Node.new(id)
     z = Zone.new(id)
     z.save(params)
     c = Cluster.new(params["cluster_id"])
     c.add_zone(params["cluster_id"], id)
     params['server'].each do |k,v|
+      n_id = counter
       puts v['ip'], v['name'], v['role']
-      puts zone_id
+      n.save(n_id, zone_id, v['ip'], v['name'], v['role'])
+      z.add_node(n_id)
     end
     redirect to('/zones')
   end

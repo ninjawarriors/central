@@ -8,12 +8,11 @@ class Central
 			@props = Central.redis.hgetall "nodes::#{@id}" || {}
 		end
 
-		def save(props={})
-			props_v = props.reject {|k,v| not ["name", "ip", "zone_id", "command_id", "role"].include? k}
-
+		def save(n_id, zone_id, ip, name, role)
+			@id = n_id
 			Central.redis.sadd "nodes", @id
-			Central.redis.set "nodes::#{props_v[:name]}", @id
-			Central.redis.hmset "nodes::#{@id}", "id", @id, "name", props_v[:name], "ip", props_v[:ip], "zone_id", props_v[:zone_id], "command_id", props_v[:command_id], "role", props_v[:role]
+			Central.redis.set "nodes::#{name}", @id
+			Central.redis.hmset "nodes::#{@id}", "id", @id, "name", name, "ip", ip, "zone_id", zone_id, "role", role
 		end
 
 		def self.deploy(ip, node_id, node_name)
