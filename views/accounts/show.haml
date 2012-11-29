@@ -1,0 +1,14 @@
+%h1= @account.props["name"] + " Account"
+
+%ul.well
+	- @environments.each do |e|
+		%a{:href => "/environments/#{e["env_id"]}", :class => "btn btn-large btn-success"}= e["name"]
+
+%table{:border => 0, :width => "100%"}
+	%tr
+	%tr
+	%tr
+		%th{:class => "btn btn-mini btn-inverse"}Edit
+	%tr{:align => "left"}
+		%th Monitored
+		%th Enabled

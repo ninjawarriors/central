@@ -10,8 +10,3 @@ Most of the orchestration platforms out there are java based, or just a bit ugly
 
 If you want to know about the base framework we used, check out their github project:
   https://github.com/l3ck/sinatra-boilerplate
-
-# Cause we're ninja warriors.
-
-
-

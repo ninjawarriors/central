@@ -8,6 +8,7 @@ class Central
       @props = Central.redis.hgetall "clusters::#{@id}" || {}
     end
 
+
     def save(props={})
       props_v = props.reject {|k,v| not ["name", "environment_id", "command_id"].include? k}
 
@@ -15,20 +16,34 @@ class Central
       Central.redis.hmset "clusters::#{@id}", "name", props_v[:name], "environment_id", props_v[:environment_id]
     end
 
-    def add_node(n_id)
-      Central.redis.sadd "clusters::#{@id}::nodes", n_id
+    def add_zone(c_id,z_id)
+      @id = c_id
+      Central.redis.sadd "clusters::#{@id}::zones", z_id
     end
         
-    def delete_node(n_id)
-      Central.redis.srem "clusters::#{@id}::nodes", n_id
+    def delete_zone(c_id,z_id)
+      @id = c_id
+      Central.redis.srem "clusters::#{@id}::zones", z_id
     end
     
-    def nodes
-      @nodes ||= Node.list( Central.redis.smembers("clusters::#{@id}::nodes"))
+    def zones
+      @zones ||= Zone.list( Central.redis.smembers("clusters::#{@id}::zones"))
     end
 
     def env
       @env ||= Environment.new(@props["environment_id"])
+    end
+
+    def self.upgrade(version, cluster_id)
+      cluster_zones = Central.redis.smembers "clusters::#{cluster_id}::zones"
+      Central.redis.set "clusters::#{cluster_id}::version", version
+      cluster_zones.each do |zone_id|
+        nodes = Central.redis.smembers "zones::#{zone_id}::nodes"
+        nodes.each do |node|
+          ip = Central.redis.hget "nodes::#{node}", "ip"
+          Resque.enqueue(Upgrade, ip, version)
+        end
+      end
     end
 
     ## class methods

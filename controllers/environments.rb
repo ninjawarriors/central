@@ -1,10 +1,8 @@
 class Central
-
   get "/environments" do
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @active = Central.crumb("Environments", "/environments")
-
     @environments = Environment.list_all
     haml "environments/list"
   end
@@ -13,6 +11,7 @@ class Central
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Environment", "/environments")
+    @accounts = Account.list_all
     @active = Central.crumb("Create", request.path_info)
     haml "environments/create"
   end
@@ -20,7 +19,6 @@ class Central
   get '/environments/:id' do |id|
     pass if id == "create"
     @environment = Environment.new(id)
-    
     @crumbs = []
     @crumbs << Central.crumb("Dashboard", "/")
     @crumbs << Central.crumb("Environment", "/environments")
@@ -30,11 +28,10 @@ class Central
 
   post '/environments' do
     id = counter 
-    
     e = Environment.new(id)
     e.save(params)
-
+    a = Account.new(id)
+    a.add_env(params["account_id"],id)
     redirect to('/environments')
   end
-
 end

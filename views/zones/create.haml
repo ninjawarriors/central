@@ -1,0 +1,14 @@
+%h1 Create a New Zone
+%form.well{:action => "/zones", :method => "post"}
+  .input
+    %label{:for => "environment"}
+      Cluster
+    %select{:name => "cluster_id"}
+      - @clusters.each do |e|
+        %option{:value => e.id}= e.props["name"]
+  .input
+    %label{:for => "name"}
+      Zone Name
+    %input{:type => "text", :name => "name"}/
+  .actions
+    %input{:type => "submit", :value => "Create", :class => "btn"}/

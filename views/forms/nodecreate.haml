@@ -1,0 +1,17 @@
+%input{:type => "checkbox", :name => "role", :value => "opensips"} OpenSIPS
+%br
+%input{:type => "checkbox", :name => "role", :value => "freeswitch"} FreeSWITCH
+%br
+%input{:type => "checkbox", :name => "role", :value => "whapps"} WhApps
+%br
+%input{:type => "checkbox", :name => "role", :value => "bigcouch"} BigCouch DB
+%br
+%input{:type => "checkbox", :name => "role", :value => "rabbitmq"} Rabbitmq
+%br
+%label{:for => "name"}
+	Node Name
+%input{:type => "text", :size => "30", :name => "name"}
+%label{:for => "name"}
+	IP Address
+%input{:type => "text", :size => "30", :name => "ip"}
+%input{:type => "hidden", :name => "zone_id", :value => @z_id}
