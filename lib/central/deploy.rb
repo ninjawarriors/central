@@ -11,7 +11,7 @@ class Central
       curl_repo(ip)
       setup_deps(ip)
       env_reset(ip)
-      copy_databag(ip)
+      #copy_databag(ip)
       chef_solo(ip, node_id, node_name)
     end
 
@@ -96,6 +96,35 @@ class Central
     def self.queue(debug, cmd, ip)
       Central.debug debug
       command = "ssh -p 22 root@#{ip} '#{cmd}'"
+      log = Log.new object_id
+      b_stdout = Log::Buffer.new object_id, "stdout"
+      b_stderr = Log::Buffer.new object_id, "stderr"
+
+      h = {}
+      h["exit_status"] = 1
+      h["started"] = Time.now.to_f
+      h["finished"] = nil
+      log.save h
+
+      begin
+        status = spawn command, 'stdout' => b_stdout, 'stderr' => b_stderr
+      rescue => e
+        h["error"] = e
+      end
+      h["finished"] = Time.now.to_f
+      log.save h
+
+      if DEBUG
+        puts command
+        puts status.to_i
+        puts b_stdout
+        puts b_stderr if b_stderr
+      end
+    end
+
+    def self.copy_zone_databag(ip, z_id)
+      debug = "Copying node json file to Node #{ip}"
+      command = "scp /tmp/zone_#{z_id}_databag.json root@#{ip}:/root; ssh -p 22 root@#{ip} 'cp /root/zone_#{z_id}_databag.json /root/data_bags/accounts'"
       log = Log.new object_id
       b_stdout = Log::Buffer.new object_id, "stdout"
       b_stderr = Log::Buffer.new object_id, "stderr"

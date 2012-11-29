@@ -19,6 +19,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[0][ip]"}
+  %input{:type => "hidden", :name => "server[0][role]", :value => "whapps"}
   %hr
   App Server 2 (Whapps / Ecallmgr / RabbitMQ / HAProxy)
   %label{:for => "name"}
@@ -27,6 +28,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[1][ip]"}
+  %input{:type => "hidden", :name => "server[1][role]", :value => "whapps"}
   %hr
   DB Server 1 (BigCouch DB)
   %label{:for => "name"}
@@ -35,6 +37,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[2][ip]"}
+  %input{:type => "hidden", :name => "server[2][role]", :value => "bigcouch"}
   %hr
   DB Server 2 (BigCouch DB)
   %label{:for => "name"}
@@ -43,6 +46,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[3][ip]"}
+  %input{:type => "hidden", :name => "server[3][role]", :value => "bigcouch"}
   %hr
   DB Server 3 (BigCouch DB)
   %label{:for => "name"}
@@ -51,6 +55,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[4][ip]"}
+  %input{:type => "hidden", :name => "server[4][role]", :value => "bigcouch"}
   %hr
   Media Gateway Server 1 (FreeSWITCH)
   %label{:for => "name"}
@@ -59,6 +64,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[5][ip]"}
+  %input{:type => "hidden", :name => "server[5][role]", :value => "freeswitch"}
   %hr
   Media Gateway Server 2 (FreeSWITCH)
   %label{:for => "name"}
@@ -67,6 +73,7 @@
   %label{:for => "name"}
     IP Address
   %input{:type => "text", :size => "30", :name => "server[6][ip]"}
+  %input{:type => "hidden", :name => "server[6][role]", :value => "freeswitch"}
   
   %hr
   %input{:type => "hidden", :name => "cluster_id", :value => @cluster_id}
