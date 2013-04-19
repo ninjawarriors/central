@@ -1,0 +1,162 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    SystemTimer (1.2.3)
+    builder (3.2.0)
+    bunny (0.8.0)
+    central-core (0.0.1)
+    central-hook-skeleton (0.0.2)
+    chef (0.9.18)
+      bunny (>= 0.6.0)
+      erubis
+      extlib
+      highline
+      json (>= 1.4.4, <= 1.4.6)
+      json (>= 1.4.4, <= 1.4.6)
+      mixlib-authentication (>= 1.1.0)
+      mixlib-cli (>= 1.1.0)
+      mixlib-config (>= 1.1.2)
+      mixlib-log (>= 1.2.0)
+      moneta
+      ohai (>= 0.5.7)
+      rest-client (>= 1.0.4, < 1.7.0)
+      rest-client (>= 1.0.4, < 1.7.0)
+      uuidtools
+    chunky_png (1.2.8)
+    compass (0.12.2)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    daemons (1.1.9)
+    erubis (2.7.0)
+    eventmachine (1.0.3)
+    excon (0.6.6)
+    extlib (0.9.16)
+    fog (0.8.2)
+      builder
+      excon (~> 0.6.1)
+      formatador (>= 0.1.3)
+      json
+      mime-types
+      net-ssh (>= 2.1.3)
+      nokogiri (>= 1.4.4)
+      ruby-hmac
+    foreman (0.36.1)
+      term-ansicolor (~> 1.0.7)
+      thor (>= 0.13.6)
+    formatador (0.2.4)
+    fssm (0.2.10)
+    haml (4.0.2)
+      tilt
+    highline (1.6.17)
+    i18n (0.6.4)
+    ipaddress (0.8.0)
+    json (1.4.6)
+    kgio (2.8.0)
+    knife-rackspace (0.5.12)
+      fog (~> 0.8.2)
+    mail (2.5.3)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+    mime-types (1.22)
+    mixlib-authentication (1.3.0)
+      mixlib-log
+    mixlib-cli (1.3.0)
+    mixlib-config (1.1.2)
+    mixlib-log (1.6.0)
+    mixlib-shellout (1.1.0)
+    moneta (0.7.15)
+    mono_logger (1.0.1)
+    multi_json (1.7.2)
+    net-ssh (2.6.7)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
+    net-ssh-multi (1.2.0)
+      net-ssh (>= 2.6.5)
+      net-ssh-gateway (>= 1.2.0)
+    nokogiri (1.5.9)
+    ohai (6.16.0)
+      ipaddress
+      mixlib-cli
+      mixlib-config
+      mixlib-log
+      mixlib-shellout
+      systemu
+      yajl-ruby
+    open4 (1.3.0)
+    polyglot (0.3.3)
+    pony (1.4)
+      mail (> 2.0)
+    rack (1.3.6)
+    rack-protection (1.5.0)
+      rack
+    raindrops (0.10.0)
+    rake (10.0.4)
+    redis (3.0.3)
+    redis-namespace (1.2.1)
+      redis (~> 3.0.0)
+    resque (1.24.1)
+      mono_logger (~> 1.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.2)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+    resque-batched-job (1.7.0)
+      resque (>= 1.10.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    ruby-hmac (0.4.0)
+    rufus-scheduler (2.0.18)
+      tzinfo (>= 0.3.23)
+    sass (3.2.7)
+    sinatra (1.3.3)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    systemu (2.5.2)
+    term-ansicolor (1.0.7)
+    thin (1.5.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    thor (0.18.1)
+    tilt (1.3.7)
+    treetop (1.4.12)
+      polyglot
+      polyglot (>= 0.3.1)
+    tzinfo (0.3.37)
+    unicorn (4.6.2)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
+    uuidtools (2.1.3)
+    vegas (0.1.11)
+      rack (>= 1.0.0)
+    yajl-ruby (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  SystemTimer
+  central-core
+  central-hook-skeleton
+  chef
+  compass
+  foreman (= 0.36.1)
+  haml
+  json
+  knife-rackspace
+  net-ssh-multi
+  open4
+  pony
+  rack (= 1.3.6)
+  rake
+  redis
+  resque
+  resque-batched-job
+  rufus-scheduler
+  sinatra
+  thin
+  unicorn
